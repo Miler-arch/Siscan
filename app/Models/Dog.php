@@ -27,4 +27,21 @@ class Dog extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function jealousies()
+    {
+        return $this->hasMany(Jealousy::class);
+    }
+    public function crossings()
+    {
+        return $this->hasMany(Crossing::class);
+    }
+    public function litters()
+    {
+        return $this->hasMany(Litters::class);
+    }
+
+    public function veterinaryCareRequests()
+    {
+        return $this->hasMany(VeterinaryCareRequest::class);
+    }
 }
