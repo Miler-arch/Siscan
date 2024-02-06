@@ -44,4 +44,8 @@ class Dog extends Model
     {
         return $this->hasMany(VeterinaryCareRequest::class);
     }
+    public function medicalHistories()
+    {
+        return $this->hasMany(MedicalHistory::class);
+    }
 }

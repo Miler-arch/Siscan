@@ -329,6 +329,11 @@ return [
                     'url'  => 'attentions',
                     'icon' => 'fas fa-briefcase-medical',
                 ],
+                [
+                    'text' => 'Historias Clínicas',
+                    'url'  => 'medical_histories',
+                    'icon' => 'fas fa-notes-medical',
+                ],
             ],
 
         ]

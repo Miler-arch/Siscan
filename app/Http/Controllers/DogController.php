@@ -66,4 +66,12 @@ class DogController extends Controller
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Can eliminado con éxito');
         return redirect()->route('dogs.index');
     }
+
+    public function history(Dog $dog)
+    {
+        $dog = Dog::with('medicalHistories')->find($dog->id);
+        $medicalHistories = $dog->medicalHistories;
+        $pdf = \PDF::loadView('dogs.history', compact('dog', 'medicalHistories'));
+        return $pdf->stream('historial.pdf');
+    }
 }

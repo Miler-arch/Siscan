@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Crear Perro')
+@section('title', 'Registrar Perro')
 
 @section('content')
 <div class="p-3">

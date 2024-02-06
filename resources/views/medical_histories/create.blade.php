@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Registrar Cruce')
+@section('title', 'Registrar Historial Médico')
 
 @section('plugins.Sweetalert2', true)
 @section('plugins.Select2', true)
@@ -9,21 +9,19 @@
 <div class="p-3">
     <div class="card m-auto">
         <div class="card-header bg-dark">
-            <h4>Regitrar Cruce</h4>
+            <h4>Regitrar Historial Clínico</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('crossings.store') }}" method="POST">
+            <form action="{{ route('medical_histories.store') }}" method="POST">
             @csrf
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Perro Macho:</label>
+                            <label>Perro :</label>
                             <select name="dog_id" class="form-control select2">
                                 @foreach ($dogs as $dog)
-                                    @if ($dog->gender == 'macho')
                                         <option></option>
                                         <option value="{{ $dog->id }}">{{ $dog->name }}</option>
-                                    @endif
                                 @endforeach
                             </select>
                             @error('dog_id')
@@ -34,16 +32,9 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Perro Hembra:</label>
-                            <select name="female_dog" class="form-control select2">
-                                @foreach ($dogs as $dog)
-                                    @if ($dog->gender == 'hembra')
-                                        <option></option>
-                                        <option value="{{ $dog->name }}">{{ $dog->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            @error('dog_id')
+                            <label>Anamnesis</label>
+                            <input type="text" name="anamnesis" class="form-control" value="{{old('anamnesis')}}">
+                            @error('anamnesis')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -59,11 +50,31 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Diagnóstico Presuntivo :</label>
+                            <input type="text" name="presumptive_diagnosis" class="form-control" value="{{old('presumptive_diagnosis')}}">
+                            @error('presumptive_diagnosis')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Examen Complementario :</label>
+                            <input type="text" name="complementary_exam" class="form-control" value="{{old('complementary_exam')}}">
+                            @error('complementary_exam')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label>Tipo :</label>
-                            <input type="text" name="type" class="form-control" value="{{old('type')}}">
-                            @error('type')
+                            <label>Tratamiento :</label>
+                            <input type="text" name="treatment" class="form-control" value="{{old('treatment')}}">
+                            @error('treatment')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>

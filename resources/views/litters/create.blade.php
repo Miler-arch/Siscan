@@ -17,11 +17,30 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Perro :</label>
+                            <label>Perro Macho:</label>
                             <select name="dog_id" class="form-control select2">
                                 @foreach ($dogs as $dog)
-                                    <option></option>
-                                    <option value="{{ $dog->id }}">{{ $dog->name }}</option>
+                                    @if ($dog->gender == 'macho')
+                                        <option></option>
+                                        <option value="{{ $dog->id }}">{{ $dog->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('dog_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Perro Hembra:</label>
+                            <select name="female_dog" class="form-control select2">
+                                @foreach ($dogs as $dog)
+                                    @if ($dog->gender == 'hembra')
+                                        <option></option>
+                                        <option value="{{ $dog->name }}">{{ $dog->name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             @error('dog_id')

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar Perro')
+@section('title', 'Crear Perro')
 @section('plugins.Datatables', false)
 
 @section('content')

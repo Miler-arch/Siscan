@@ -41,6 +41,7 @@
                     <form action="{{ route('dogs.destroy', $dog) }}" method="POST" class="form-delete">
                         @csrf
                         @method('DELETE')
+                        <a href="{{ route('history_dog', $dog)}}" class="btn btn-danger"><i class="fas fa-file-pdf"></i></a>
                         <a href="{{ route('dogs.show', $dog) }}" class="btn btn-info"><i class=" fas fa-eye"></i></a>
                         <a href="{{ route('dogs.edit', $dog) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
