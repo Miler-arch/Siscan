@@ -47,14 +47,16 @@ class DogController extends Controller
 
     public function update(UpdateRequest $request, Dog $dog)
     {
-        if($request->hasFile('picture')){
+
+        $image_name = null;
+
+        if ($request->hasFile('picture')) {
             $file = $request->file('picture');
             $image_name = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path("/image"), $image_name);
         }
-        $dog->update($request->all()+[
-            'photo' => $image_name,
-        ]);
+
+        $dog->update($request->all() + ['photo' => $image_name]);
 
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Can actualizado con éxito');
         return redirect()->route('dogs.index');

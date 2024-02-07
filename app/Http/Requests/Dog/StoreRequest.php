@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
             'chip' => 'required|string',
             'birthdate' => 'required|date',
             'specialty' => 'required|string',
-            // 'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
         ];
     }
 
@@ -51,10 +51,10 @@ class StoreRequest extends FormRequest
             'birthdate.date' => 'El campo fecha de nacimiento debe ser una fecha',
             'specialty.required' => 'El campo especialidad es requerido',
             'specialty.string' => 'El campo especialidad debe ser una cadena de texto',
-            // 'photo.required' => 'El campo foto es requerido',
-            // 'photo.image' => 'El campo foto debe ser una imagen',
-            // 'photo.mimes' => 'El campo foto debe ser un archivo de tipo: jpeg, png, jpg, gif, svg',
-            // 'photo.max' => 'El campo foto debe tener un máximo de 1024 caracteres',
+            'picture.required' => 'El campo foto es requerido',
+            'picture.image' => 'El campo foto debe ser una imagen',
+            'picture.mimes' => 'El campo foto debe ser un archivo de tipo: jpeg, png, jpg, gif, svg',
+            'picture.max' => 'El campo foto debe tener un máximo de 1024 caracteres',
         ];
     }
 }

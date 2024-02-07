@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Historia Clínica</title>
+        <title>Historia Clínica {{$dog->name}} </title>
         <meta charset="utf-8" />
         <meta
             name="viewport"
@@ -81,11 +81,9 @@
             @foreach ($medicalHistories as $medicalHistory)
                 <b>ANAMNESIS</b> <span class="text-dotted">{{$medicalHistory->anamnesis}}</span> <span class="space-date">FECHA</span> <span class="text-dotted">{{$medicalHistory->date}}</span><br> <b>DIAGNÓSTICO PRESUNTIVO </b><span class="text-dotted">{{$medicalHistory->presumptive_diagnosis}}</span><br> <b>EXAMENES COMPLEMENTARIOS</b> <span class="text-dotted">{{$medicalHistory->complementary_exam}} </span><br> <b>TRATAMIENTO</b> <span class="text-dotted">{{$medicalHistory->treatment}}</span>
                 <div class="mt-4">
-
                 </div>
             @endforeach
         </div>
-
 
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

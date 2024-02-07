@@ -3,9 +3,13 @@
 @section('title', 'Editar Perro')
 @section('plugins.Datatables', false)
 
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+@stop
+
 @section('content')
 <div class="p-3">
-    <div class="card w-50 m-auto">
+    <div class="card m-auto">
         <div class="card-header bg-dark">
             <h4>Crear Perro</h4>
         </div>
@@ -126,16 +130,18 @@
                             @enderror
                         </div>
                     </div>
-
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <div class="form-group">
                             <label>Foto :</label>
-                            <input type="file" name="picture" id="picture">
-                            @error('photo')
+
+                            <input type="file" name="picture" class="form-control dropify" id="picture" data-default-file="{{ asset('./image/' . $dog->photo) }}">
+
+                            @error('picture')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
+
                 </div>
                 <div class="card-footer text-center">
                     <a href="{{ route('dogs.index') }}" class="btn btn-warning text-bold">Cancelar</a>
@@ -145,4 +151,20 @@
         </div>
     </div>
 </div>
+@stop
+
+@section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    <script>
+        $('.dropify').dropify(
+            {
+                messages: {
+                    default: 'Arrastra y suelta un archivo aquí o haz clic',
+                    replace: 'Arrastra y suelta un archivo o haz clic para reemplazar',
+                    remove:  'Remover',
+                    error:   'Ooops, algo salió mal.'
+                }
+            }
+        );
+    </script>
 @stop

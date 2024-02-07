@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CrossingController;
 use App\Http\Controllers\DogController;
+use App\Http\Controllers\EuthanasiaActController;
 use App\Http\Controllers\JealousyController;
 use App\Http\Controllers\LittersController;
 use App\Http\Controllers\MedicalHistoryController;
@@ -34,10 +35,12 @@ Route::resource('crossings', CrossingController::class)->names('crossings');
 Route::resource('litters', LittersController::class)->names('litters');
 
 Route::resource('attentions', VeterinaryCareRequestController::class)->names('attentions');
+Route::get('attentions.pdf', [VeterinaryCareRequestController::class, 'pdf'])->name('attentions.pdf');
 
 Route::resource('medical_histories', MedicalHistoryController::class)->names('medical_histories');
 
-Route::get('attentions.pdf', [VeterinaryCareRequestController::class, 'pdf'])->name('attentions.pdf');
+Route::resource('euthanasia_acts', EuthanasiaActController::class)->names('euthanasia_acts');
+Route::get('euthanasia_pdf/{euthanasia_act}', [EuthanasiaActController::class, 'pdf'])->name('euthanasia_pdf');
 
 });
 

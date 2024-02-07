@@ -334,6 +334,11 @@ return [
                     'url'  => 'medical_histories',
                     'icon' => 'fas fa-notes-medical',
                 ],
+                [
+                    'text' => 'Eutanasias',
+                    'url'  => 'euthanasia_acts',
+                    'icon' => 'fas fa-skull-crossbones',
+                ],
             ],
 
         ]
