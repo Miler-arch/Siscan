@@ -296,52 +296,41 @@ return [
         ],
 
         [
-            'text' => 'Perros',
-            'url'  => 'dogs',
-            'icon' => 'fas fa-dog',
+            'text' => 'Clientes',
+            'url'  => 'clients',
+            'icon' => 'fas fa-user-tie',
         ],
 
         [
-            'text' => 'Celos',
-            'url'  => 'jealousies',
-            'icon' => 'fas fa-heart-broken',
+            'text' => 'Animales',
+            'url'  => 'animals',
+            'icon' => 'fas fa-cat',
         ],
 
         [
-            'text' => 'Cruces',
-            'url'  => 'crossings',
-            'icon' => 'fas fa-paw',
+            'text' => 'Registros Clínicos',
+            'url'  => 'clinical_records',
+            'icon' => 'fas fa-notes-medical',
         ],
 
         [
-            'text' => 'Camadas',
-            'url'  => 'litters',
-            'icon' => 'fas fa-dog',
+            'text' => 'Compromisos de Pago',
+            'url'  => 'payment_commitments',
+            'icon' => 'fas fa-hand-holding-usd',
         ],
 
         [
-            'text'    => 'Veterinaria',
-            'icon'    => '',
+            'text' => 'Contrato de Prestación',
+            'url'  => 'service_provision_contracts',
+            'icon' => 'fas fa-file-contract',
+        ],
 
-            'submenu' => [
-                [
-                    'text' => 'Atenciones',
-                    'url'  => 'attentions',
-                    'icon' => 'fas fa-briefcase-medical',
-                ],
-                [
-                    'text' => 'Historias Clínicas',
-                    'url'  => 'medical_histories',
-                    'icon' => 'fas fa-notes-medical',
-                ],
-                [
-                    'text' => 'Eutanasias',
-                    'url'  => 'euthanasia_acts',
-                    'icon' => 'fas fa-skull-crossbones',
-                ],
-            ],
-
+        [
+            'text' => 'Solicitud de Eutanasia',
+            'url'  => 'euthanasias',
+            'icon' => 'fas fa-syringe',
         ]
+
     ],
 
     /*

@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\CrossingController;
-use App\Http\Controllers\DogController;
-use App\Http\Controllers\EuthanasiaActController;
-use App\Http\Controllers\JealousyController;
-use App\Http\Controllers\LittersController;
-use App\Http\Controllers\MedicalHistoryController;
-use App\Http\Controllers\VeterinaryCareRequestController;
+use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClinicalRecordController;
+use App\Http\Controllers\EuthanasiaController;
+use App\Http\Controllers\PaymentCommitmentController;
+use App\Http\Controllers\ServiceProvisionContractController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -25,22 +24,22 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
 
-Route::resource('dogs', DogController::class)->names('dogs');
-Route::get('history_dog/{dog}', [DogController::class, 'history'])->name('history_dog');
+Route::resource('clients', ClientController::class)->names('clients');
 
-Route::resource('jealousies', JealousyController::class)->names('jealousies');
+Route::resource('animals', AnimalController::class)->names('animals');
+Route::get('animals_pdf', [AnimalController::class, 'pdf'])->name('animals_pdf');
 
-Route::resource('crossings', CrossingController::class)->names('crossings');
+Route::resource('clinical_records', ClinicalRecordController::class)->names('clinical_records');
+Route::get('clinical_records_pdf/{clinical_records}', [ClinicalRecordController::class, 'pdf'])->name('clinical_records_pdf');
 
-Route::resource('litters', LittersController::class)->names('litters');
+Route::resource('payment_commitments', PaymentCommitmentController::class)->names('payment_commitments');
+Route::get('payment_commitments_client/{payment_commitment}', [PaymentCommitmentController::class, 'pdf'])->name('payment_commitments_client');
 
-Route::resource('attentions', VeterinaryCareRequestController::class)->names('attentions');
-Route::get('attentions.pdf', [VeterinaryCareRequestController::class, 'pdf'])->name('attentions.pdf');
+Route::resource('service_provision_contracts', ServiceProvisionContractController::class)->names('service_provision_contracts');
+Route::get('service_provision_contracts/{service_provision_contract}', [ServiceProvisionContractController::class, 'pdf'])->name('service_provision_contracts');
 
-Route::resource('medical_histories', MedicalHistoryController::class)->names('medical_histories');
-
-Route::resource('euthanasia_acts', EuthanasiaActController::class)->names('euthanasia_acts');
-Route::get('euthanasia_pdf/{euthanasia_act}', [EuthanasiaActController::class, 'pdf'])->name('euthanasia_pdf');
+Route::resource('euthanasias', EuthanasiaController::class)->names('euthanasias');
+Route::get('euthanasias/{euthanasia}', [EuthanasiaController::class, 'pdf'])->name('euthanasias');
 
 });
 
