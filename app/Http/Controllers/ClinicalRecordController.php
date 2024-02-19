@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClinicalRecord\StoreRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\ClinicalRecord;
@@ -22,7 +23,7 @@ class ClinicalRecordController extends Controller
         return view('clinical_records.create', compact('clients', 'animals'));
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         auth()->user()->clinicalRecords()->create($request->all());
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Registro clínico creado con éxito');

@@ -79,8 +79,8 @@
             <h6 class="text-right form">FORM: CVAAT/ADM/0004</h6>
         </p>
 
-        <div class="w-50 m-auto py-4">
-            <h1 class="text-center"><u>SOLICITUD DE EUTANASIA</u></h1>
+        <div class="w-75 m-auto py-4">
+            <h1 class="text-center"><u>ACTA DE AUTORIZACIÓN DE ANESTESIA Y CIRUGÍA</u></h1>
         </div>
 
         <div class="text-right">
@@ -107,7 +107,7 @@
         </p>
         <p class="p">
             Doy mi consentimiento para que mi mascota de nombre y características: <br>
-            <strong>{{ $anesthesiaSurgery->animal->name }}</strong>
+            <strong>{{ $anesthesiaSurgery->animal->name }}</strong>, Especie: <strong>{{ $anesthesiaSurgery->animal->specie }}</strong>, Sexo: <strong>{{ $anesthesiaSurgery->animal->gender}}</strong>, Raza: <strong>{{$anesthesiaSurgery->animal->race}}</strong>, Pelaje: <strong>{{$anesthesiaSurgery->animal->fur}}</strong>
         </p>
 
         <p>

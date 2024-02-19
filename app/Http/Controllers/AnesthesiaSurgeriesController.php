@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnesthesiaSurgeries\StoreRequest;
 use App\Models\AnesthesiaSurgeries;
 use App\Models\Animal;
 use App\Models\Client;
@@ -11,8 +12,8 @@ class AnesthesiaSurgeriesController extends Controller
 {
     public function index()
     {
-        $anesthesiaAndSurgeries = AnesthesiaSurgeries::with('client', 'animal')->get();
-        return view('anesthesia_surgeries.index', compact('anesthesiaAndSurgeries'));
+        $anesthesiaSurgeries = AnesthesiaSurgeries::with('client', 'animal')->get();
+        return view('anesthesia_surgeries.index', compact('anesthesiaSurgeries'));
     }
     public function create()
     {
@@ -20,7 +21,7 @@ class AnesthesiaSurgeriesController extends Controller
         $animals = Animal::all();
         return view('anesthesia_surgeries.create', compact('clients', 'animals'));
     }
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         AnesthesiaSurgeries::create($request->all());
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Anestesia y cirugía creado con éxito');
@@ -60,8 +61,10 @@ class AnesthesiaSurgeriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AnesthesiaSurgeries $anesthesiaSurgeries)
+    public function destroy(AnesthesiaSurgeries $anesthesiaSurgery)
     {
-        //
+        $anesthesiaSurgery->delete();
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Anestesia y cirugía eliminado con éxito');
+        return redirect()->route('anesthesia_surgeries.index');
     }
 }

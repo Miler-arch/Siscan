@@ -31,9 +31,9 @@
                     <form action="{{ route('clinical_records.destroy', $clinical_record) }}" method="POST" class="form-delete">
                         @csrf
                         @method('DELETE')
-                        <a href="{{ route('clinical_records_pdf', $clinical_record)}}" class="btn btn-danger" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        <a href="{{ route('clinical_records.show', $clinical_record) }}" class="btn btn-info"><i class=" fas fa-eye"></i></a>
-                        <a href="{{ route('clinical_records.edit', $clinical_record) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
+                        <a href="{{ route('clinical_records_pdf', $clinical_record)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                        {{-- <a href="{{ route('clinical_records.show', $clinical_record) }}" class="btn btn-info"><i class=" fas fa-eye"></i></a>
+                        <a href="{{ route('clinical_records.edit', $clinical_record) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>

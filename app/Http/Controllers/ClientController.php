@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Client\StoreRequest;
 use App\Http\Requests\Client\UpdateRequest;
+use App\Models\AnesthesiaSurgeries;
+use App\Models\Animal;
 use App\Models\Client;
+use App\Models\Internment;
+use App\Models\PaymentCommitment;
+use App\Models\SedationAnesthesia;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -75,10 +80,50 @@ class ClientController extends Controller
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Cliente actualizado con éxito');
         return redirect()->route('clients.index');
     }
+
+
     public function destroy(Client $client)
     {
+
+        $hasAnimals = Animal::where('client_id', $client->id)->exists();
+
+        if ($hasAnimals) {
+            notyf()->duration(2000)->position('y', 'top')->addWarning('Este cliente tiene mascotas asociadas. No se puede eliminar.');
+            return redirect()->route('clients.index');
+        }
+
+        $hasCommitments = PaymentCommitment::where('client_id', $client->id)->exists();
+
+        if ($hasCommitments) {
+            notyf()->duration(2000)->position('y', 'top')->addWarning('Este cliente tiene compromisos de pago asociados. No se puede eliminar.');
+            return redirect()->route('clients.index');
+        }
+
+        $hasAnesthesiaSurgeries = AnesthesiaSurgeries::where('client_id', $client->id)->exists();
+
+        if ($hasAnesthesiaSurgeries) {
+            notyf()->duration(2000)->position('y', 'top')->addWarning('Este cliente tiene anestesias y cirugías asociadas. No se puede eliminar.');
+            return redirect()->route('clients.index');
+        }
+
+        $hasSedationAnesthesia = SedationAnesthesia::where('client_id', $client->id)->exists();
+
+        if ($hasSedationAnesthesia) {
+            notyf()->duration(2000)->position('y', 'top')->addWarning('Este cliente tiene sedaciones y anestesias asociadas. No se puede eliminar.');
+            return redirect()->route('clients.index');
+        }
+
+        $hasInternment = Internment::where('client_id', $client->id)->exists();
+
+        if ($hasInternment) {
+            notyf()->duration(2000)->position('y', 'top')->addWarning('Este cliente tiene incrementos asociados. No se puede eliminar.');
+            return redirect()->route('clients.index');
+        }
+
         $client->delete();
+
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Cliente eliminado con éxito');
         return redirect()->route('clients.index');
     }
+
 }

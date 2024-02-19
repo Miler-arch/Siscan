@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('color');
             $table->date('date_start');
             $table->date('date_end');
-            $table->double('amount');
+            $table->decimal('amount', 8, 2);
             $table->foreign('animal_id')->references('id')->on('animals');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->timestamps();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ServiceProvisioContract\StoreRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\ServiceProvisionContract;
@@ -22,7 +23,7 @@ class ServiceProvisionContractController extends Controller
         return view('service_provision_contracts.create', compact('clients', 'animals'));
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         ServiceProvisionContract::create($request->all());
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Contrato de prestación de servicios creado con éxito');
@@ -38,10 +39,6 @@ class ServiceProvisionContractController extends Controller
         return $pdf->stream('service_provision_contract.pdf');
     }
 
-    public function show(ServiceProvisionContract $serviceProvisionContract)
-    {
-        //
-    }
 
     public function edit(ServiceProvisionContract $serviceProvisionContract)
     {
@@ -54,6 +51,8 @@ class ServiceProvisionContractController extends Controller
 
     public function destroy(ServiceProvisionContract $serviceProvisionContract)
     {
-        //
+        $serviceProvisionContract->delete();
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Contrato de prestación de servicios eliminado con éxito');
+        return redirect()->route('service_provision_contracts.index');
     }
 }

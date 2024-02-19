@@ -33,8 +33,8 @@
                     <form action="{{ route('service_provision_contracts.destroy', $service_provision_contract) }}" method="POST" class="form-delete">
                         @csrf
                         @method('DELETE')
-                        <a href="{{ route('service_provision_contracts', $service_provision_contract)}}" class="btn btn-danger" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        <a href="{{ route('service_provision_contracts.edit', $service_provision_contract) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
+                        <a href="{{ route('service_provision_contracts', $service_provision_contract)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                        {{-- <a href="{{ route('service_provision_contracts.edit', $service_provision_contract) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>
@@ -46,20 +46,22 @@
 
 @section('js')
     <script>
-    $('.form-delete').submit(function(e){
-        e.preventDefault();
-        Swal.fire({
-        title: "Estas seguro de eliminar?",
-        text: "No podras recuperar esta informacion!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Eliminar!",
-        cancelButtonText: "Cancelar",
-        }).then((result) => {
-            this.submit();
+        $('.form-delete').submit(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
         });
-    });
     </script>
 @stop

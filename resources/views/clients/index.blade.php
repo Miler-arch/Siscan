@@ -30,7 +30,7 @@
                 <td>{{ $client->ci}}</td>
                 <td>{{ $client->phone }}</td>
                 <td>
-                    <img src="{{asset('images/'.$client->photo)}}" alt="client_photo" class="img-fluid" width="80">
+                    <img src="{{asset('images/'.$client->photo)}}" alt="client_photo" class="img-fluid" width="50">
                 </td>
                 <td>
                     <form action="{{ route('clients.destroy', $client) }}" method="POST" class="form-delete">

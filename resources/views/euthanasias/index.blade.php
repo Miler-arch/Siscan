@@ -31,8 +31,8 @@
                     <form action="{{ route('euthanasias.destroy', $euthanasia) }}" method="POST" class="form-delete">
                         @csrf
                         @method('DELETE')
-                        <a href="{{ route('euthanasias', $euthanasia)}}" class="btn btn-danger" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        <a href="{{ route('euthanasias.edit', $euthanasia) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
+                        <a href="{{ route('euthanasias', $euthanasia)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                        {{-- <a href="{{ route('euthanasias.edit', $euthanasia) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>
@@ -44,20 +44,22 @@
 
 @section('js')
     <script>
-    $('.form-delete').submit(function(e){
-        e.preventDefault();
-        Swal.fire({
-        title: "Estas seguro de eliminar?",
-        text: "No podras recuperar esta informacion!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Eliminar!",
-        cancelButtonText: "Cancelar",
-        }).then((result) => {
-            this.submit();
+        $('.form-delete').submit(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
         });
-    });
     </script>
 @stop

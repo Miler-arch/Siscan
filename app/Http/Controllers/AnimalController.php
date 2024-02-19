@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Animal\StoreRequest;
 use App\Http\Requests\Animal\UpdateRequest;
+use App\Models\AnesthesiaSurgeries;
 use App\Models\Animal;
 use App\Models\Client;
+use App\Models\ClinicalRecord;
+use App\Models\Internment;
+use App\Models\SedationAnesthesia;
 use Illuminate\Http\Request;
 
 class AnimalController extends Controller
@@ -79,6 +83,36 @@ class AnimalController extends Controller
     }
     public function destroy(Animal $animal)
     {
+        $hasClinicalRecords = ClinicalRecord::where('animal_id', $animal->id)->exists();
+
+        if ($hasClinicalRecords) {
+            notyf()->duration(2000)->position('y', 'top')->addError('No se puede eliminar la mascota, tiene registros asociados');
+            return redirect()->route('animals.index');
+        }
+
+        $hasAnesthesiaSurgeries = AnesthesiaSurgeries::where('animal_id', $animal->id)->exists();
+
+        if ($hasAnesthesiaSurgeries) {
+            notyf()->duration(2000)->position('y', 'top')->addError('No se puede eliminar la mascota, tiene registros asociados');
+            return redirect()->route('animals.index');
+        }
+
+
+        $hasSedationAnesthesia = SedationAnesthesia::where('animal_id', $animal->id)->exists();
+
+        if ($hasSedationAnesthesia) {
+            notyf()->duration(2000)->position('y', 'top')->addError('No se puede eliminar la mascota, tiene registros asociados');
+            return redirect()->route('animals.index');
+        }
+
+
+        $hasInternments = Internment::where('animal_id', $animal->id)->exists();
+
+        if ($hasInternments) {
+            notyf()->duration(2000)->position('y', 'top')->addError('No se puede eliminar la mascota, tiene registros asociados');
+            return redirect()->route('animals.index');
+        }
+
         $animal->delete();
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Mascota eliminado con éxito');
         return redirect()->route('animals.index');

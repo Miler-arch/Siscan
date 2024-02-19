@@ -17,22 +17,24 @@
                 <th>Cliente</th>
                 <th>Mascota</th>
                 <th>Propietario</th>
+                <th>Otro Propietario</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($anesthesiaAndSurgeries as $index => $anesthesiaAndSurgery)
+            @foreach ($anesthesiaSurgeries as $index => $anesthesiaSurgery)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $anesthesiaAndSurgery->client->name }}</td>
-                <td>{{ $anesthesiaAndSurgery->animal->name }}</td>
-                <td>{{ $anesthesiaAndSurgery->type_client }}</td>
+                <td>{{ $anesthesiaSurgery->client->name }}</td>
+                <td>{{ $anesthesiaSurgery->animal->name }}</td>
+                <td>{{ $anesthesiaSurgery->type_client }}</td>
+                <td>{{ $anesthesiaSurgery->other_type_client }}</td>
                 <td>
-                    <form action="{{ route('anesthesia_surgeries.destroy', $anesthesiaAndSurgery) }}" method="POST" class="form-delete">
+                    <form action="{{ route('anesthesia_surgeries.destroy', $anesthesiaSurgery) }}" method="POST" class="form-delete">
                         @csrf
                         @method('DELETE')
-                        <a href="{{ route('anesthesia_surgeries', $anesthesiaAndSurgery)}}" class="btn btn-danger" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        <a href="{{ route('anesthesia_surgeries.edit', $anesthesiaAndSurgery) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
+                        <a href="{{ route('anesthesia_surgeries', $anesthesiaSurgery)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                        {{-- <a href="{{ route('anesthesia_surgeries.edit', $anesthesiaAndSurgery) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>
@@ -44,20 +46,22 @@
 
 @section('js')
     <script>
-    $('.form-delete').submit(function(e){
-        e.preventDefault();
-        Swal.fire({
-        title: "Estas seguro de eliminar?",
-        text: "No podras recuperar esta informacion!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Eliminar!",
-        cancelButtonText: "Cancelar",
-        }).then((result) => {
-            this.submit();
-        });
-    });
+        $('.form-delete').submit(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
+        })
     </script>
 @stop

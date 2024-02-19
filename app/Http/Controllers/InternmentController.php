@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Internment\StoreRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\Internment;
@@ -22,7 +23,7 @@ class InternmentController extends Controller
         return view('internments.create', compact('clients', 'animals'));
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         Internment ::create($request->all());
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Internamiento creado con éxito.');
@@ -49,6 +50,8 @@ class InternmentController extends Controller
 
     public function destroy(Internment $internment)
     {
-        //
+        $internment->delete();
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Internamiento eliminado con éxito.');
+        return redirect()->route('internments.index');
     }
 }

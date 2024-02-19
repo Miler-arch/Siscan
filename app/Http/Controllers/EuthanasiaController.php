@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Euthanasia\StoreRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\Euthanasia;
@@ -20,7 +21,7 @@ class EuthanasiaController extends Controller
         $animals = Animal::all();
         return view('euthanasias.create', compact('clients', 'animals'));
     }
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         Euthanasia::create($request->all());
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Eutanasia registrado con éxito');
@@ -45,6 +46,8 @@ class EuthanasiaController extends Controller
     }
     public function destroy(Euthanasia $euthanasia)
     {
-        //
+        $euthanasia->delete();
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Eutanasia eliminado con éxito');
+        return redirect()->route('euthanasias.index');
     }
 }

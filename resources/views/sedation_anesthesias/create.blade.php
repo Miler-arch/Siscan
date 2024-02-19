@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="p-3">
-    <div class="card m-auto">
+    <div class="card w-75 m-auto">
         <div class="card-header bg-dark">
             <h4>Registrar Acta de Autorización de Sedación y Anestesia</h4>
         </div>
@@ -16,11 +16,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Cliente</label>
-                            <select name="client_id" id="client_id" class="form-control select2">
+                            <label class="required">Cliente</label>
+                            <select name="client_id" id="client_id" class="form-control client_id">
                                 @foreach ($clients as $client)
                                     <option></option>
-                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
+                                    <option value="{{ $client->id }}" {{(old('client_id') == $client->id ? 'selected' : '')}}>{{ $client->name }}</option>
                                 @endforeach
                             </select>
                             @error('client_id')
@@ -31,11 +31,11 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Mascota</label>
-                            <select name="animal_id" id="animal_id" class="form-control select2">
+                            <label class="required">Mascota</label>
+                            <select name="animal_id" id="animal_id" class="form-control animal_id">
                                 @foreach ($animals as $animal)
                                     <option></option>
-                                    <option value="{{ $animal->id }}">{{ $animal->name }}</option>
+                                    <option value="{{ $animal->id }}" {{(old('animal_id') == $animal->id ? 'selected' : '')}}>{{ $animal->name }}</option>
                                 @endforeach
                             </select>
                             @error('animal_id')
@@ -46,8 +46,8 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Detalle</label>
-                            <textarea name="detail" id="detail" class="form-control" rows="3"></textarea>
+                            <label class="required">Detalle</label>
+                            <textarea name="detail" id="detail" class="form-control" rows="3">{{old('detail')}}</textarea>
                             @error('detail')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -66,12 +66,40 @@
 @stop
 
 @section('js')
-    <script>
-        $('.select2').select2(
+   <script>
+        $('.client_id').select2(
             {
                 placeholder: "Seleccione un cliente",
-                allowClear: true
+                allowClear: true,
+                width: '100%',
+                theme: 'classic',
+                language: {
+                    noResults: function() {
+                    return "No hay resultados";
+                    },
+                    searching: function() {
+                    return "Buscando..";
+                    }
+                }
             }
         );
+    </script>
+    <script>
+    $('.animal_id').select2(
+        {
+            placeholder: "Seleccione una mascota",
+            allowClear: true,
+            width: '100%',
+            theme: 'classic',
+            language: {
+                noResults: function() {
+                return "No hay resultados";
+                },
+                searching: function() {
+                return "Buscando..";
+                }
+            }
+        }
+    );
     </script>
 @stop

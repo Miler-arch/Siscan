@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SedationAnesthesia\StoreRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\SedationAnesthesia;
@@ -20,7 +21,7 @@ class SedationAnesthesiaController extends Controller
         $animals = Animal::all();
         return view('sedation_anesthesias.create', compact('clients', 'animals'));
     }
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         SedationAnesthesia::create($request->all());
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Acta de sedación y anestesia creada con éxito.');
@@ -48,6 +49,8 @@ class SedationAnesthesiaController extends Controller
 
     public function destroy(SedationAnesthesia $sedationAnesthesia)
     {
-        //
+        $sedationAnesthesia->delete();
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Acta de sedación y anestesia eliminada con éxito.');
+        return redirect()->route('sedation_anesthesias.index');
     }
 }
