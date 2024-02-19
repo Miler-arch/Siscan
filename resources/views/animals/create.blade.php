@@ -4,23 +4,29 @@
 
 @section('plugins.Select2', true)
 
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+@stop
+
 @section('content')
 <div class="p-3">
-    <div class="card m-auto">
+    <div class="card m-auto w-75">
         <div class="card-header bg-dark">
             <h4>Registrar Ficha Clinica</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('animals.store') }}" method="POST">
+            <form action="{{ route('animals.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Cliente</label>
+                            <label class="required">Cliente</label>
                             <select name="client_id" id="client_id" class="form-control select2">
-                                <option></option>
+                                <option value="">Seleccione un cliente</option>
                                 @foreach ($clients as $client)
-                                    <option value="{{ $client->id }}">{{ $client->name }}</option>
+                                    <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
+                                        {{ $client->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('client_id')
@@ -31,7 +37,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Nombre</label>
+                            <label class="required">Nombre</label>
                             <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}">
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -41,22 +47,17 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Especie</label>
-                            <select name="specie" id="specie" class="form-control">
-                                <option selected disabled>Seleccione una especie</option>
-                                <option value="Canino">Canino</option>
-                                <option value="Felino">Felino</option>
-                                <option value="Ave">Ave</option>
-                                <option value="Reptil">Reptil</option>
-                                <option value="Roedor">Roedor</option>
-                                <option value="Otro">Otro</option>
-                            </select>
+                            <label class="required">Especie</label>
+                            <input type="text" name="specie" id="specie" class="form-control" value="{{old('specie')}}">
+                            @error('specie')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Raza</label>
+                            <label class="required">Raza</label>
                             <input type="text" name="race" id="race" class="form-control" value="{{old('race')}}"">
                             @error('race')
                                 <span class="text-danger">{{ $message }}</span>
@@ -66,19 +67,32 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Género</label><br>
+                            <label class="required">Género</label><br>
                             Macho
-                            <input type="radio" name="gender" id="gender" value="Macho">
+                            <input type="radio" name="gender" id="gender_macho" value="Macho" {{ old('gender') == 'Macho' ? 'checked' : '' }}>
                             Hembra
-                            <input type="radio" name="gender" id="gender" value="Hembra">
+                            <input type="radio" name="gender" id="gender_hembra" value="Hembra" {{ old('gender') == 'Hembra' ? 'checked' : '' }}>
                         </div>
+                        @error('gender')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Pelaje</label>
+                            <label class="required">Pelaje</label>
                             <input type="text" name="fur" id="fur" class="form-control" value="{{old('fur')}}">
                             @error('fur')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="required">Imagen</label>
+                            <input type="file" name="photo" class="dropify">
+                            @error('photo')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -99,7 +113,31 @@
         $('.select2').select2(
             {
                 placeholder: "Seleccione un cliente",
-                allowClear: true
+                allowClear: true,
+                width: '100%',
+                theme: 'classic',
+                language: {
+                    noResults: function() {
+                    return "No hay resultados";
+                    },
+                    searching: function() {
+                    return "Buscando..";
+                    }
+                }
+            }
+        );
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    <script>
+        $('.dropify').dropify(
+            {
+                messages: {
+                    default: 'Arrastra y suelta una imagen aquí o haz clic',
+                    replace: 'Arrastra y suelta o haz clic para reemplazar',
+                    remove:  'Eliminar',
+                    error:   'Ooops, algo salió mal.'
+                }
             }
         );
     </script>

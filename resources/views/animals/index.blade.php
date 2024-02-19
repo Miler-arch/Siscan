@@ -11,7 +11,7 @@
         <a href="{{ route('animals.create') }}" class="btn btn-primary float-right">Registrar Mascota</a>
         <a href="{{ route('animals_pdf')}}" class="float-right btn btn-danger mr-1" target="_blank"><i class="fas fa-file-pdf"></i> Lista de Clientes</a>
     </div>
-    <table id="data" class="table table-bordered table-striped">
+    <table id="data" class="table table-bordered table-striped display responsive nowrap" width="100%">
         <thead class="bg-dark">
             <tr>
                 <th>#</th>
@@ -21,6 +21,8 @@
                 <th>Especie</th>
                 <th>Raza</th>
                 <th>Género</th>
+                <th>Pelaje</th>
+                <th>Imagen</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -34,11 +36,15 @@
                 <td>{{ $animal->specie }}</td>
                 <td>{{ $animal->race }}</td>
                 <td>{{ $animal->gender }}</td>
+                <td>{{ $animal->fur }}</td>
+                <td>
+                    <img src="{{ asset('./animal_images/'.$animal->photo) }}" class="img-fluid" width="80">
+                </td>
                 <td>
                     <form action="{{ route('animals.destroy', $animal) }}" method="POST" class="form-delete">
                         @csrf
                         @method('DELETE')
-                        {{-- <a href="{{ route('history_dog', $animal)}}" class="btn btn-danger" target="_blank"><i class="fas fa-file-pdf"></i></a> --}}
+                        <a href="{{ route('history_animal', $animal)}}" class="btn btn-danger" target="_blank"><i class="fas fa-file-pdf"></i></a>
                         <a href="{{ route('animals.show', $animal) }}" class="btn btn-info"><i class=" fas fa-eye"></i></a>
                         <a href="{{ route('animals.edit', $animal) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
@@ -52,22 +58,22 @@
 
 @section('js')
     <script>
-        // . El punto es una clase
-        // # El gato es un id
-    $('.form-delete').submit(function(e){
-        e.preventDefault();
-        Swal.fire({
-        title: "Estas seguro de eliminar?",
-        text: "No podras recuperar esta informacion!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, Eliminar!",
-        cancelButtonText: "Cancelar",
-        }).then((result) => {
-            this.submit();
+        $('.form-delete').submit(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
         });
-    });
     </script>
 @stop

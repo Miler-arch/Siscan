@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('race');
             $table->string('gender');
             $table->string('fur')->nullable();
+            $table->string('photo');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

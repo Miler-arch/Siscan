@@ -4,6 +4,7 @@
 
 @section('adminlte_css')
     @stack('css')
+            <link rel="stylesheet" href="../css/styles.css">
     @yield('css')
 @stop
 

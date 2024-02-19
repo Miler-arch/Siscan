@@ -86,20 +86,20 @@
         <span>
             ESTERILIZADO: {{ $clinical_records->sterilized }}
         </span>
-        <span class="ml-5">
+        <span class="ml-4">
             TEMP: {{ $clinical_records->temp }}
         </span>
-        <span class="ml-5">
+        <span class="ml-4">
             PESO: {{ $clinical_records->weight }}
         </span>
-        <span class="ml-5">
+        <span class="ml-4">
             EDAD: {{ $clinical_records->age }}
         </span>
-        <span class="ml-5">
+        <span class="ml-4">
             COLOR: {{ $clinical_records->color }}
         </span>
         <span class="ml-4">
-            FECHA: {{ $clinical_records->date }}
+            FECHA: {{ $clinical_records->created_at->format('d-M-Y') }}
         </span>
 
         <div class="ws" style="position: relative;">

@@ -64,11 +64,11 @@ return [
     */
 
     'logo' => '<b>Sis</b>Can',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'vendor/adminlte/dist/img/logo.jpg',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'SisCan',
 
     /*
     |--------------------------------------------------------------------------
@@ -84,13 +84,13 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'Auth Logo',
-            'class' => '',
-            'width' => 50,
-            'height' => 50,
+            'path' => 'vendor/adminlte/dist/img/logo.jpg',
+            'alt' => 'SisCan',
+            'class' => 'img-circle',
+            'width' => 60,
+            'height' => 60,
         ],
     ],
 
@@ -107,13 +107,13 @@ return [
     */
 
     'preloader' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'path' => 'vendor/adminlte/dist/img/logo.jpg',
+            'alt' => 'SisCan',
             'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+            'width' => 80,
+            'height' => 80,
         ],
     ],
 
@@ -150,7 +150,7 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
+    'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
@@ -167,12 +167,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
-    'classes_auth_header' => '',
-    'classes_auth_body' => '',
-    'classes_auth_footer' => '',
-    'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_card' => 'card-outline card-info',
+    'classes_auth_header' => 'bg-gradient-primary',
+    'classes_auth_body' => 'bg-gradient-primary',
+    'classes_auth_footer' => 'text-center',
+    'classes_auth_icon' => 'fa-lg text-white',
+    'classes_auth_btn' => 'btn-flat btn-dark',
 
     /*
     |--------------------------------------------------------------------------
@@ -187,14 +187,14 @@ return [
     */
 
     'classes_body' => '',
-    'classes_brand' => '',
+    'classes_brand' => 'bg-info',
     'classes_brand_text' => '',
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-primary elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => '',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'clients',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -298,37 +298,55 @@ return [
         [
             'text' => 'Clientes',
             'url'  => 'clients',
-            'icon' => 'fas fa-user-tie',
+            'icon' => 'fas fa-user-tie text-white',
         ],
 
         [
-            'text' => 'Animales',
+            'text' => 'Mascotas',
             'url'  => 'animals',
-            'icon' => 'fas fa-cat',
+            'icon' => 'fas fa-paw text-warning',
         ],
 
         [
             'text' => 'Registros Clínicos',
             'url'  => 'clinical_records',
-            'icon' => 'fas fa-notes-medical',
+            'icon' => 'fas fa-notes-medical text-info',
         ],
 
         [
             'text' => 'Compromisos de Pago',
             'url'  => 'payment_commitments',
-            'icon' => 'fas fa-hand-holding-usd',
+            'icon' => 'fas fa-hand-holding-usd text-success',
         ],
 
         [
             'text' => 'Contrato de Prestación',
             'url'  => 'service_provision_contracts',
-            'icon' => 'fas fa-file-contract',
+            'icon' => 'fas fa-file-contract text-white',
         ],
 
         [
             'text' => 'Solicitud de Eutanasia',
             'url'  => 'euthanasias',
-            'icon' => 'fas fa-syringe',
+            'icon' => 'fas fa-praying-hands text-danger',
+        ],
+
+        [
+            'text' => 'Anestesia y Cirugía',
+            'url'  => 'anesthesia_surgeries',
+            'icon' => 'fas fa-syringe text-success',
+        ],
+
+        [
+            'text' => 'Sedación y Anestesia',
+            'url'  => 'sedation_anesthesias',
+            'icon' => 'fas fa-syringe text-danger',
+        ],
+
+        [
+            'text' => 'Internamientos',
+            'url'  => 'internments',
+            'icon' => 'fas fa-procedures text-warning',
         ]
 
     ],
@@ -386,6 +404,16 @@ return [
                     'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js',
+                ],
             ],
         ],
         'Select2' => [
@@ -393,13 +421,13 @@ return [
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
+                    'asset' => true,
+                    'location' => 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
+                    'asset' => true,
+                    'location' => 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
                 ],
             ],
         ],

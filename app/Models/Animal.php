@@ -16,12 +16,8 @@ class Animal extends Model
         'specie',
         'race',
         'gender',
-        'sterilized',
-        'temp',
-        'weight',
-        'age',
-        'color',
-        'fur'
+        'fur',
+        'photo'
     ];
 
     public function client()
@@ -37,5 +33,20 @@ class Animal extends Model
     public function clinicalRecords()
     {
         return $this->hasMany(ClinicalRecord::class);
+    }
+
+    public function anesthesiaSurgeries()
+    {
+        return $this->hasMany(AnesthesiaSurgeries::class);
+    }
+
+    public function sedationAnesthesia()
+    {
+        return $this->hasMany(SedationAnesthesia::class);
+    }
+
+    public function internments()
+    {
+        return $this->hasMany(Internment::class);
     }
 }

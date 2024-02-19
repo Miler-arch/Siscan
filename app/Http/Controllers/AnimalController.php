@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Animal\StoreRequest;
+use App\Http\Requests\Animal\UpdateRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -10,7 +12,7 @@ class AnimalController extends Controller
 {
     public function index()
     {
-        $animals = Animal::all();
+        $animals = Animal::with('client', 'user')->get();
         return view('animals.index', compact('animals'));
     }
 
@@ -20,15 +22,30 @@ class AnimalController extends Controller
         return view('animals.create', compact('clients'));
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        auth()->user()->animals()->create($request->all());
+        if($request->hasFile('photo')){
+            $file = $request->file('photo');
+            $name = time().$file->getClientOriginalName();
+            $file->move(public_path().'/animal_images/', $name);
+        }
+
+        auth()->user()->animals()->create([
+            'client_id' => $request->client_id,
+            'name' => $request->name,
+            'specie' => $request->specie,
+            'race' => $request->race,
+            'gender' => $request->gender,
+            'fur' => $request->fur,
+            'photo' => $name
+        ]);
+
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Mascota creado con éxito');
         return redirect()->route('animals.index');
     }
     public function show(Animal $animal)
     {
-        //
+        return view('animals.show', compact('animal'));
     }
 
     public function edit(Animal $animal)
@@ -37,9 +54,26 @@ class AnimalController extends Controller
         $selectedClientId = $animal->client->id;
         return view('animals.edit', compact('animal', 'clients', 'selectedClientId'));
     }
-    public function update(Request $request, Animal $animal)
+    public function update(UpdateRequest $request, Animal $animal)
     {
-        $animal->update($request->all());
+        $name = $animal->photo;
+
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/animal_images/', $name);
+        }
+
+        $animal->update([
+            'client_id' => $request->client_id,
+            'name' => $request->name,
+            'specie' => $request->specie,
+            'race' => $request->race,
+            'gender' => $request->gender,
+            'fur' => $request->fur,
+            'photo' => $name,
+        ]);
+
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Mascota actualizado con éxito');
         return redirect()->route('animals.index');
     }
@@ -56,5 +90,14 @@ class AnimalController extends Controller
         $pdf = \PDF::loadView('animals.pdf', compact('animals'));
         $pdf = $pdf->setPaper('a4', 'landscape');
         return $pdf->stream('animals.pdf');
+    }
+
+    public function history_animal(Animal $animal)
+    {
+        $animal = Animal::with('client')->find($animal->id);
+        $clinical_records = $animal->clinicalRecords;
+        $pdf = \PDF::loadView('animals.history_animal', compact('animal', 'clinical_records'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
+        return $pdf->stream('historia_clinica.pdf');
     }
 }

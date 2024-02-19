@@ -10,7 +10,7 @@
         <h4 class="d-inline">Compromisos de Pago</h4>
         <a href="{{ route('payment_commitments.create') }}" class="btn btn-primary float-right">Registrar Compromiso de Pago</a>
     </div>
-    <table id="data" class="table table-bordered table-striped">
+    <table id="data" class="table table-bordered table-striped display responsive nowrap" width="100%">
         <thead class="bg-dark">
             <tr>
                 <th>ID</th>

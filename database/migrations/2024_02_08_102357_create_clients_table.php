@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('number')->nullable();
             $table->integer('phone')->unique();
             $table->integer('reference_phone')->unique()->nullable();
+            $table->string('photo');
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ class ClinicalRecordController extends Controller
 {
     public function index()
     {
-        $clinical_records = ClinicalRecord::all();
+        $clinical_records = ClinicalRecord::with('client', 'user')->get();
         return view('clinical_records.index', compact('clinical_records'));
     }
 
@@ -53,6 +53,8 @@ class ClinicalRecordController extends Controller
 
     public function destroy(ClinicalRecord $clinicalRecord)
     {
-        //
+        $clinicalRecord->delete();
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Registro clínico eliminado con éxito');
+        return redirect()->route('clinical_records.index');
     }
 }

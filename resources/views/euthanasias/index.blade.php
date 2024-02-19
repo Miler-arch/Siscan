@@ -10,7 +10,7 @@
         <h4 class="d-inline">Solicitudes de Eutanasia</h4>
         <a href="{{ route('euthanasias.create') }}" class="btn btn-primary float-right">Registrar Solicitud de Eutanasia</a>
     </div>
-    <table id="data" class="table table-bordered table-striped">
+    <table id="data" class="table table-bordered table-striped display responsive nowrap" width="100%">
         <thead class="bg-dark">
             <tr>
                 <th>ID</th>

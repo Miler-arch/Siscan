@@ -15,11 +15,10 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('user_id');
             $table->string('sterilized');
-            $table->double('temp', 8, 2)->nullable();
-            $table->double('weight', 8, 2)->nullable();
+            $table->decimal('temp', 8, 2)->nullable();
+            $table->decimal('weight', 8, 2)->nullable();
             $table->integer('age')->nullable();
             $table->string('color')->nullable();
-            $table->date('date')->nullable();
             $table->text('observation')->nullable();
             $table->foreign('animal_id')->references('id')->on('animals');
             $table->foreign('client_id')->references('id')->on('clients');

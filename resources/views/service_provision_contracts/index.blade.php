@@ -10,7 +10,7 @@
         <h4 class="d-inline">Contratos de Prestación de Servicios</h4>
         <a href="{{ route('service_provision_contracts.create') }}" class="btn btn-primary float-right">Registrar Contratos de Prestación de Servicios</a>
     </div>
-    <table id="data" class="table table-bordered table-striped">
+    <table id="data" class="table table-bordered table-striped display responsive nowrap" width="100%">
         <thead class="bg-dark">
             <tr>
                 <th>ID</th>

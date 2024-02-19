@@ -11,7 +11,7 @@ class EuthanasiaController extends Controller
 {
     public function index()
     {
-        $euthanasias = Euthanasia::all();
+        $euthanasias = Euthanasia::with('client', 'animal')->get();
         return view('euthanasias.index', compact('euthanasias'));
     }
     public function create()

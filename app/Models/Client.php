@@ -19,6 +19,7 @@ class Client extends Model
         'number',
         'phone',
         'reference_phone',
+        'photo'
     ];
 
     public function animals()
@@ -29,5 +30,20 @@ class Client extends Model
     public function paymentCommitments()
     {
         return $this->hasMany(PaymentCommitment::class);
+    }
+
+    public function anesthesiaSurgeries()
+    {
+        return $this->hasMany(AnesthesiaSurgeries::class);
+    }
+
+    public function sedationAnesthesia()
+    {
+        return $this->hasMany(SedationAnesthesia::class);
+    }
+
+    public function internments()
+    {
+        return $this->hasMany(Internment::class);
     }
 }

@@ -17,7 +17,6 @@ class ClinicalRecord extends Model
         'weight',
         'age',
         'color',
-        'date',
         'observation',
     ];
 
@@ -25,6 +24,7 @@ class ClinicalRecord extends Model
     {
         return $this->belongsTo(Animal::class);
     }
+
     public function client()
     {
         return $this->belongsTo(Client::class);

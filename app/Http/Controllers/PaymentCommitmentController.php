@@ -11,7 +11,7 @@ class PaymentCommitmentController extends Controller
 
     public function index()
     {
-        $payment_commitments = PaymentCommitment::all();
+        $payment_commitments = PaymentCommitment::with('client')->get();
         return view('payment_commitments.index', compact('payment_commitments'));
     }
 
@@ -32,7 +32,7 @@ class PaymentCommitmentController extends Controller
     {
         $numeroALetras = new \Luecano\NumeroALetras\NumeroALetras();
         $numero = $numeroALetras->toWords($payment_commitment->amount);
-        
+
         $pdf = \PDF::loadView('payment_commitments.pdf', compact('payment_commitment', 'numero'));
         return $pdf->stream('payment_commitment.pdf');
     }

@@ -2,18 +2,20 @@
 
 @section('title', 'Editar Mascota')
 
-@section('plugins.Select2', true)
-@section('plugins.Datatables', false)
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+@stop
 
+@section('plugins.Select2', true)
 
 @section('content')
 <div class="p-3">
-    <div class="card m-auto">
+    <div class="card m-auto w-75">
         <div class="card-header bg-dark">
             <h4>Registrar Mascota</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('animals.update', $animal) }}" method="POST">
+            <form action="{{ route('animals.update', $animal) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
                 <div class="row">
@@ -32,7 +34,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Nombre :</label>
                             <input type="text" name="name" value="{{$animal->name}}" class="form-control">
@@ -45,15 +47,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Especie</label>
-                            <select name="specie" id="specie" class="form-control">
-                                <option selected disabled>Seleccione una especie</option>
-                                <option value="Canino" {{$animal->specie == "Canino" ? 'selected' : ''}}>Canino</option>
-                                <option value="Felino" {{$animal->specie == "Felino" ? 'selected' : ''}}>Felino</option>
-                                <option value="Ave" {{$animal->specie == "Ave" ? 'selected' : ''}}>Ave</option>
-                                <option value="Reptil" {{$animal->specie == "Reptil" ? 'selected' : ''}}>Reptil</option>
-                                <option value="Roedor" {{$animal->specie == "Roedor" ? 'selected' : ''}}>Roedor</option>
-                                <option value="Otro" {{$animal->specie == "Otro" ? 'selected' : ''}}>Otro</option>
-                            </select>
+                            <input type="text" name="specie" id="specie" class="form-control" value="{{$animal->specie}}">
                         </div>
                     </div>
 
@@ -86,6 +80,15 @@
                             @enderror
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Imagen :</label>
+                            <input type="file" name="photo" class="dropify" data-default-file="{{ asset('animal_images/'.$animal->photo) }}">
+                            @error('photo')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-center">
@@ -103,7 +106,31 @@
         $('.select2').select2(
             {
                 placeholder: "Seleccione un cliente",
-                allowClear: true
+                allowClear: true,
+                width: '100%',
+                theme: 'classic',
+                language: {
+                    noResults: function() {
+                    return "No hay resultados";
+                    },
+                    searching: function() {
+                    return "Buscando..";
+                    }
+                }
+            }
+        );
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+    <script>
+        $('.dropify').dropify(
+            {
+                messages: {
+                    default: 'Arrastra y suelta una imagen aquí o haz clic',
+                    replace: 'Arrastra y suelta o haz clic para reemplazar',
+                    remove:  'Eliminar',
+                    error:   'Ooops, algo salió mal.'
+                }
             }
         );
     </script>

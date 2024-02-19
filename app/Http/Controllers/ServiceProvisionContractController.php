@@ -11,7 +11,7 @@ class ServiceProvisionContractController extends Controller
 {
     public function index()
     {
-        $service_provision_contracts = ServiceProvisionContract::all();
+        $service_provision_contracts = ServiceProvisionContract::with('client')->get();
         return view('service_provision_contracts.index', compact('service_provision_contracts'));
     }
 
