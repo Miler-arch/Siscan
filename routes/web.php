@@ -28,6 +28,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
 
 Route::resource('clients', ClientController::class)->names('clients');
+Route::get('/get-animals/{client}', [ClientController::class, 'getAnimals'])->name('get-animals');
 
 Route::resource('animals', AnimalController::class)->names('animals');
 Route::get('animals_pdf', [AnimalController::class, 'pdf'])->name('animals_pdf');
@@ -35,6 +36,7 @@ Route::get('history_animal/{animal}', [AnimalController::class, 'history_animal'
 
 Route::resource('clinical_records', ClinicalRecordController::class)->names('clinical_records');
 Route::get('clinical_records_pdf/{clinical_records}', [ClinicalRecordController::class, 'pdf'])->name('clinical_records_pdf');
+
 
 Route::resource('payment_commitments', PaymentCommitmentController::class)->names('payment_commitments');
 Route::get('payment_commitments_client/{payment_commitment}', [PaymentCommitmentController::class, 'pdf'])->name('payment_commitments_client');

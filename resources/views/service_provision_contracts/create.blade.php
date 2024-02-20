@@ -142,4 +142,25 @@
             }
         );
     </script>
+
+    <script>
+        $('#client_id').on('change', function() {
+            let client_id = $(this).val();
+            if(client_id) {
+                $.ajax({
+                    url: '/get-animals/'+client_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#animal_id').empty();
+                        $.each(data, function(key, value) {
+                            $('#animal_id').append('<option value="'+value.id+'">'+value.name+'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#animal_id').empty();
+            }
+        });
+    </script>
 @stop

@@ -82,6 +82,11 @@ class ClientController extends Controller
     }
 
 
+    public function getAnimals(Client $client)
+    {
+        return $client->animals;
+    }
+
     public function destroy(Client $client)
     {
 

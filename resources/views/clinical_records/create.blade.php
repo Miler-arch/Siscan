@@ -20,8 +20,8 @@
                             <label class="required">Cliente</label>
                             <select name="client_id" id="client_id" class="form-control client_id">
                                 @foreach ($clients as $client)
-                                    <option></option>
-                                    <option value="{{ $client->id }}" {{old('client_id' == $client->id? 'selected' : '')}}>{{$client->name}}</option>
+                                        <option></option>
+                                        <option value="{{ $client->id }}" {{old('client_id' == $client->id? 'selected' : '')}}>{{$client->name}}</option>
                                 @endforeach
                             </select>
                             @error('client_id')
@@ -34,8 +34,8 @@
                         <div class="form-group">
                             <label class="required">Mascota</label>
                             <select name="animal_id" id="animal_id" class="form-control animal_id">
-                                <option></option>
                                 @foreach ($animals as $animal)
+                                    <option></option>
                                     <option value="{{ $animal->id }}" {{old('animal_id' == $animal->id? 'selected' : '')}}>{{ $animal->name }}</option>
                                 @endforeach
                             </select>
@@ -155,5 +155,26 @@
             }
         }
     );
+    </script>
+
+    <script>
+        $('#client_id').on('change', function() {
+            let client_id = $(this).val();
+            if(client_id) {
+                $.ajax({
+                    url: '/get-animals/'+client_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#animal_id').empty();
+                        $.each(data, function(key, value) {
+                            $('#animal_id').append('<option value="'+value.id+'">'+value.name+'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#animal_id').empty();
+            }
+        });
     </script>
 @stop
