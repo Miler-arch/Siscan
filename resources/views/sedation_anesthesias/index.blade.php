@@ -8,14 +8,35 @@
 @section('content')
     <div class="card-header bg-dark mb-3 mt-2">
         <h4 class="d-inline">Actas de Autorización para Sedación y Anestesia</h4>
-        <a href="{{ route('sedation_anesthesias.create') }}" class="btn btn-primary float-right">Registrar Acta de Autorización para Sedación y Anestesia</a>
+        <div class="float-right">
+            <a href="{{ route('sedation_anesthesias.create') }}" class="btn btn-primary mb-2 float-md-right">Registrar Acta</a>
+            <a href="{{ route('pdf_all_sedation_anesthesias') }}" class="btn btn-info mb-2 mr-2 float-md-right" target="_blank">
+                <i class="fas fa-file-pdf"></i> Actas PDF
+            </a>
+            <form action="export_sedation_anesthesias" method="POST" class="form-inline">
+                @csrf
+                <div class="form-group mr-2">
+                    <label for="initial_date" class="mr-2">Desde:</label>
+                    <input type="date" name="initial_date" id="initial_date" class="form-control">
+                </div>
+                <div class="form-group mr-2">
+                    <label for="final_date" class="mr-2">Hasta:</label>
+                    <input type="date" name="final_date" id="final_date" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success mr-2">
+                    <i class="fas fa-calendar"></i> Consultar
+                </button>
+            </form>
+        </div>
     </div>
+
     <table id="data" class="table table-bordered table-striped display responsive nowrap" width="100%">
         <thead class="bg-dark">
             <tr>
                 <th>ID</th>
                 <th>Cliente</th>
                 <th>Mascota</th>
+                <th>Fecha / Hora</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -25,6 +46,7 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $sedation_anesthesia->client->name }}</td>
                 <td>{{ $sedation_anesthesia->animal->name }}</td>
+                <td>{{ $sedation_anesthesia->created_at->format('d-m-Y H:i:s ') }}</td>
                 <td>
                     <form action="{{ route('sedation_anesthesias.destroy', $sedation_anesthesia) }}" method="POST" class="form-delete">
                         @csrf

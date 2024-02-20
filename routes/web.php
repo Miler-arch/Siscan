@@ -36,26 +36,38 @@ Route::get('history_animal/{animal}', [AnimalController::class, 'history_animal'
 
 Route::resource('clinical_records', ClinicalRecordController::class)->names('clinical_records');
 Route::get('clinical_records_pdf/{clinical_records}', [ClinicalRecordController::class, 'pdf'])->name('clinical_records_pdf');
-
+Route::get('pdf_all_clinical_records', [ClinicalRecordController::class, 'pdfAll'])->name('pdf_all_clinical_records');
+Route::post('export_clinical_records', [ClinicalRecordController::class, 'export'])->name('export_clinical_records');
 
 Route::resource('payment_commitments', PaymentCommitmentController::class)->names('payment_commitments');
 Route::get('payment_commitments_client/{payment_commitment}', [PaymentCommitmentController::class, 'pdf'])->name('payment_commitments_client');
+Route::get('pdf_all_payment_commitments', [PaymentCommitmentController::class, 'pdfAll'])->name('pdf_all_payment_commitments');
+Route::post('export_payment_commitments', [PaymentCommitmentController::class, 'export'])->name('export_payment_commitments');
 
 Route::resource('service_provision_contracts', ServiceProvisionContractController::class)->names('service_provision_contracts');
 Route::get('service_provision_contracts/{service_provision_contract}', [ServiceProvisionContractController::class, 'pdf'])->name('service_provision_contracts');
+Route::get('pdf_all_service_provision_contracts', [ServiceProvisionContractController::class, 'pdfAll'])->name('pdf_all_service_provision_contracts');
+Route::post('export_service_provision_contracts', [ServiceProvisionContractController::class, 'export'])->name('export_service_provision_contracts');
 
 Route::resource('euthanasias', EuthanasiaController::class)->names('euthanasias');
 Route::get('euthanasias/{euthanasia}', [EuthanasiaController::class, 'pdf'])->name('euthanasias');
+Route::get('pdf_all_euthanasias', [EuthanasiaController::class, 'pdfAll'])->name('pdf_all_euthanasias');
+Route::post('export_euthanasias', [EuthanasiaController::class, 'export'])->name('export_euthanasias');
 
 Route::resource('anesthesia_surgeries', AnesthesiaSurgeriesController::class)->names('anesthesia_surgeries');
 Route::get('anesthesia_surgeries/{anesthesia_surgery}', [AnesthesiaSurgeriesController::class, 'pdf'])->name('anesthesia_surgeries');
+Route::get('pdf_all_anesthesia_surgeries', [AnesthesiaSurgeriesController::class, 'pdfAll'])->name('pdf_all_anesthesia_surgeries');
+Route::post('export_anesthesia_surgeries', [AnesthesiaSurgeriesController::class, 'export'])->name('export_anesthesia_surgeries');
 
 Route::resource('sedation_anesthesias', SedationAnesthesiaController::class)->names('sedation_anesthesias');
 Route::get('sedation_anesthesias/{sedation_anesthesia}', [SedationAnesthesiaController::class, 'pdf'])->name('sedation_anesthesias');
+Route::get('pdf_all_sedation_anesthesias', [SedationAnesthesiaController::class, 'pdfAll'])->name('pdf_all_sedation_anesthesias');
+Route::post('export_sedation_anesthesias', [SedationAnesthesiaController::class, 'export'])->name('export_sedation_anesthesias');
 
 Route::resource('internments', InternmentController::class)->names('internments');
 Route::get('internments/{internment}', [InternmentController::class, 'pdf'])->name('internments');
-
+Route::get('pdf_all_internments', [InternmentController::class, 'pdfAll'])->name('pdf_all_internments');
+Route::post('export_internments', [InternmentController::class, 'export'])->name('export_internments');
 });
 
 

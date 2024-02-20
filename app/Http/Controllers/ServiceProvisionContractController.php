@@ -39,6 +39,24 @@ class ServiceProvisionContractController extends Controller
         return $pdf->stream('service_provision_contract.pdf');
     }
 
+    public function pdfAll()
+    {
+        $service_provision_contracts = ServiceProvisionContract::with('client', 'animal')->get();
+        $pdf = \PDF::loadView('service_provision_contracts.pdf_all', compact('service_provision_contracts'));
+        return $pdf->stream('service_provision_contracts.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $fecha_inicio = \Carbon\Carbon::parse($request->initial_date)->startOfDay();
+        $fecha_fin = \Carbon\Carbon::parse($request->final_date)->endOfDay();
+        $service_provision_contracts = ServiceProvisionContract::with('client', 'animal')
+            ->whereBetween('created_at', [$fecha_inicio, $fecha_fin])
+            ->get();
+        $pdf = \PDF::loadView('service_provision_contracts.export', compact('service_provision_contracts'));
+        return $pdf->stream('service_provision_contracts.pdf');
+    }
+
 
     public function edit(ServiceProvisionContract $serviceProvisionContract)
     {

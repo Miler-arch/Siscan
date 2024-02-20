@@ -37,6 +37,24 @@ class PaymentCommitmentController extends Controller
         $pdf = \PDF::loadView('payment_commitments.pdf', compact('payment_commitment', 'numero'));
         return $pdf->stream('payment_commitment.pdf');
     }
+
+    public function pdfAll()
+    {
+        $payment_commitments = PaymentCommitment::with('client')->get();
+        $pdf = \PDF::loadView('payment_commitments.pdf_all', compact('payment_commitments'));
+        return $pdf->stream('payment_commitments.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $fecha_inicio = \Carbon\Carbon::parse($request->initial_date)->startOfDay();
+        $fecha_fin = \Carbon\Carbon::parse($request->final_date)->endOfDay();
+        $payment_commitments = PaymentCommitment::with('client')
+            ->whereBetween('created_at', [$fecha_inicio, $fecha_fin])
+            ->get();
+        $pdf = \PDF::loadView('payment_commitments.export', compact('payment_commitments'));
+        return $pdf->stream('payment_commitments.pdf');
+    }   
     public function edit(PaymentCommitment $paymentCommitment)
     {
         //

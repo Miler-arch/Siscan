@@ -8,8 +8,28 @@
 @section('content')
     <div class="card-header bg-dark mb-3 mt-2">
         <h4 class="d-inline">Solicitudes de Eutanasia</h4>
-        <a href="{{ route('euthanasias.create') }}" class="btn btn-primary float-right">Registrar Solicitud de Eutanasia</a>
+        <div class="float-right">
+            <a href="{{ route('euthanasias.create') }}" class="btn btn-primary mb-2 float-md-right">Registrar Solicitud</a>
+            <a href="{{ route('pdf_all_euthanasias') }}" class="btn btn-info mb-2 mr-2 float-md-right" target="_blank">
+                <i class="fas fa-file-pdf"></i> Solicitudes PDF
+            </a>
+            <form action="export_euthanasias" method="POST" class="form-inline">
+                @csrf
+                <div class="form-group mr-2">
+                    <label for="initial_date" class="mr-2">Desde:</label>
+                    <input type="date" name="initial_date" id="initial_date" class="form-control">
+                </div>
+                <div class="form-group mr-2">
+                    <label for="final_date" class="mr-2">Hasta:</label>
+                    <input type="date" name="final_date" id="final_date" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success mr-2">
+                    <i class="fas fa-calendar"></i> Consultar
+                </button>
+            </form>
+        </div>
     </div>
+
     <table id="data" class="table table-bordered table-striped display responsive nowrap" width="100%">
         <thead class="bg-dark">
             <tr>
@@ -17,6 +37,7 @@
                 <th>Cliente</th>
                 <th>Mascota</th>
                 <th>Doctor</th>
+                <th>Fecha / Hora</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -27,6 +48,7 @@
                 <td>{{ $euthanasia->client->name }}</td>
                 <td>{{ $euthanasia->animal->name }}</td>
                 <td>{{ $euthanasia->doctor }}</td>
+                <td>{{ $euthanasia->created_at->format('d-m-Y H:i:s ') }}</td>
                 <td>
                     <form action="{{ route('euthanasias.destroy', $euthanasia) }}" method="POST" class="form-delete">
                         @csrf

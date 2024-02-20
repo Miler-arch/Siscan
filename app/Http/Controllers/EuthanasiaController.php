@@ -32,9 +32,23 @@ class EuthanasiaController extends Controller
         $pdf = \PDF::loadView('euthanasias.pdf', compact('euthanasia'));
         return $pdf->stream('euthanasia.pdf');
     }
-    public function show(Euthanasia $euthanasia)
+
+    public function pdfAll()
     {
-        //
+        $euthanasias = Euthanasia::with('client', 'animal')->get();
+        $pdf = \PDF::loadView('euthanasias.pdf_all', compact('euthanasias'));
+        return $pdf->stream('euthanasias.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $fecha_inicio = \Carbon\Carbon::parse($request->initial_date)->startOfDay();
+        $fecha_fin = \Carbon\Carbon::parse($request->final_date)->endOfDay();
+        $euthanasias = Euthanasia::with('client', 'animal')
+            ->whereBetween('created_at', [$fecha_inicio, $fecha_fin])
+            ->get();
+        $pdf = \PDF::loadView('euthanasias.export', compact('euthanasias'));
+        return $pdf->stream('euthanasias.pdf');
     }
     public function edit(Euthanasia $euthanasia)
     {

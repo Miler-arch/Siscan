@@ -8,7 +8,26 @@
 @section('content')
     <div class="card-header bg-dark mb-3 mt-2">
         <h4 class="d-inline">Contratos de Prestación de Servicios</h4>
-        <a href="{{ route('service_provision_contracts.create') }}" class="btn btn-primary float-right">Registrar Contratos de Prestación de Servicios</a>
+        <div class="float-right">
+            <a href="{{ route('service_provision_contracts.create') }}" class="btn btn-primary mb-2 float-md-right">Registrar Contrato</a>
+            <a href="{{ route('pdf_all_service_provision_contracts') }}" class="btn btn-info mb-2 mr-2 float-md-right" target="_blank">
+                <i class="fas fa-file-pdf"></i> Contratos PDF
+            </a>
+            <form action="export_service_provision_contracts" method="POST" class="form-inline">
+                @csrf
+                <div class="form-group mr-2">
+                    <label for="initial_date" class="mr-2">Desde:</label>
+                    <input type="date" name="initial_date" id="initial_date" class="form-control">
+                </div>
+                <div class="form-group mr-2">
+                    <label for="final_date" class="mr-2">Hasta:</label>
+                    <input type="date" name="final_date" id="final_date" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success mr-2">
+                    <i class="fas fa-calendar"></i> Consultar
+                </button>
+            </form>
+        </div>
     </div>
     <table id="data" class="table table-bordered table-striped display responsive nowrap" width="100%">
         <thead class="bg-dark">
@@ -18,6 +37,7 @@
                 <th>Fecha Inicio</th>
                 <th>Fecha Fin</th>
                 <th>Monto</th>
+                <th>Fecha / Hora</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -29,6 +49,7 @@
                 <td>{{ $service_provision_contract->date_start }}</td>
                 <td>{{ $service_provision_contract->date_end }}</td>
                 <td>{{ $service_provision_contract->amount }}</td>
+                <td>{{ $service_provision_contract->created_at->format('d-m-Y H:i:s ') }}</td>
                 <td>
                     <form action="{{ route('service_provision_contracts.destroy', $service_provision_contract) }}" method="POST" class="form-delete">
                         @csrf

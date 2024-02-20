@@ -37,6 +37,26 @@ class ClinicalRecordController extends Controller
         return $pdf->stream('clinical_record.pdf');
     }
 
+    public function pdfAll()
+    {
+        $clinicalRecords = ClinicalRecord::with('client', 'user')->get();
+        $pdf = \PDF::loadView('clinical_records.pdf_all', compact('clinicalRecords'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
+        return $pdf->stream('clinical_records.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $fecha_inicio = \Carbon\Carbon::parse($request->initial_date)->startOfDay();
+        $fecha_fin = \Carbon\Carbon::parse($request->final_date)->endOfDay();
+        $clinicalRecords = ClinicalRecord::with('client', 'user')
+            ->whereBetween('created_at', [$fecha_inicio, $fecha_fin])
+            ->get();
+        $pdf = \PDF::loadView('clinical_records.export', compact('clinicalRecords'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
+        return $pdf->stream('clinical_records.pdf');
+    }
+
     public function show(ClinicalRecord $clinicalRecord)
     {
         //

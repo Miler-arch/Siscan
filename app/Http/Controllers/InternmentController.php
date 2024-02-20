@@ -35,6 +35,24 @@ class InternmentController extends Controller
         $pdf = \PDF::loadView('internments.pdf', compact('internment'));
         return $pdf->stream('internment.pdf');
     }
+    public function pdfAll()
+    {
+        $internments = Internment::with('client', 'animal')->get();
+        $pdf = \PDF::loadView('internments.pdf_all', compact('internments'));
+        return $pdf->stream('internments.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $fecha_inicio = \Carbon\Carbon::parse($request->initial_date)->startOfDay();
+        $fecha_fin = \Carbon\Carbon::parse($request->final_date)->endOfDay();
+        $internments = Internment::with('client', 'animal')
+            ->whereBetween('created_at', [$fecha_inicio, $fecha_fin])
+            ->get();
+        $pdf = \PDF::loadView('internments.export', compact('internments'));
+        return $pdf->stream('internments.pdf');
+    }
+
     public function show(Internment $internment)
     {
         //

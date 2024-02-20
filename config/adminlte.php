@@ -136,6 +136,7 @@ return [
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
 
+
     /*
     |--------------------------------------------------------------------------
     | Layout
@@ -288,7 +289,6 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Menu-Configuration
     |
     */
-
     'menu' => [
         [
             'type'         => 'fullscreen-widget',

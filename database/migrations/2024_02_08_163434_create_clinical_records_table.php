@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreign('animal_id')->references('id')->on('animals');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->date('initial_date')->nullable();
+            $table->date('final_date')->nullable();
             $table->timestamps();
         });
     }

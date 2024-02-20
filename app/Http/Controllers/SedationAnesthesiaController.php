@@ -34,6 +34,24 @@ class SedationAnesthesiaController extends Controller
         return $pdf->stream('sedation_anesthesia.pdf');
     }
 
+    public function pdfAll()
+    {
+        $sedationAnesthesias = SedationAnesthesia::with('client', 'animal')->get();
+        $pdf = \PDF::loadView('sedation_anesthesias.pdf_all', compact('sedationAnesthesias'));
+        return $pdf->stream('sedation_anesthesias.pdf');
+    }
+
+    public function export(Request $request)
+    {
+        $fecha_inicio = \Carbon\Carbon::parse($request->initial_date)->startOfDay();
+        $fecha_fin = \Carbon\Carbon::parse($request->final_date)->endOfDay();
+        $sedationAnesthesias = SedationAnesthesia::with('client', 'animal')
+            ->whereBetween('created_at', [$fecha_inicio, $fecha_fin])
+            ->get();
+        $pdf = \PDF::loadView('sedation_anesthesias.export', compact('sedationAnesthesias'));
+        return $pdf->stream('sedation_anesthesias.pdf');
+    }
+
     public function show(SedationAnesthesia $sedationAnesthesia)
     {
         //

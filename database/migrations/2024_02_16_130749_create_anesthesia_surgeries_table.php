@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('other_type_client')->nullable();
             $table->foreign('client_id')->references('id')->on('clients');
             $table->foreign('animal_id')->references('id')->on('animals');
+            $table->date('initial_date')->nullable();
+            $table->date('final_date')->nullable();
             $table->timestamps();
         });
     }

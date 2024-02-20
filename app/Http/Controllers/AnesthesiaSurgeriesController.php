@@ -34,33 +34,32 @@ class AnesthesiaSurgeriesController extends Controller
         return $pdf->stream('anesthesia_surgeries.pdf');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(AnesthesiaSurgeries $anesthesiaSurgeries)
+    public function pdfAll()
     {
-        //
+        $anesthesiaSurgeries = AnesthesiaSurgeries::with('client', 'animal')->get();
+        $pdf = \PDF::loadView('anesthesia_surgeries.pdf_all', compact('anesthesiaSurgeries'));
+        return $pdf->stream('anesthesia_surgeries.pdf');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function export(Request $request)
+    {
+        $fecha_inicio = \Carbon\Carbon::parse($request->initial_date)->startOfDay();
+        $fecha_fin = \Carbon\Carbon::parse($request->final_date)->endOfDay();
+        $anesthesiaSurgeries = AnesthesiaSurgeries::with('client', 'animal')
+            ->whereBetween('created_at', [$fecha_inicio, $fecha_fin])
+            ->get();
+        $pdf = \PDF::loadView('anesthesia_surgeries.export', compact('anesthesiaSurgeries'));
+        return $pdf->stream('anesthesia_surgeries.pdf');
+    }
+
     public function edit(AnesthesiaSurgeries $anesthesiaSurgeries)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, AnesthesiaSurgeries $anesthesiaSurgeries)
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(AnesthesiaSurgeries $anesthesiaSurgery)
     {
         $anesthesiaSurgery->delete();

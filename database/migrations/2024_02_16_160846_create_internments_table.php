@@ -13,7 +13,8 @@ return new class extends Migration
             $table->unsignedBigInteger('animal_id');
             $table->unsignedBigInteger('client_id');
             $table->string('doctor');
-
+            $table->date('initial_date')->nullable();
+            $table->date('final_date')->nullable();
             $table->foreign('animal_id')->references('id')->on('animals');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->timestamps();

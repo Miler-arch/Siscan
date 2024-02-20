@@ -1,6 +1,17 @@
 $("#data").DataTable({
     language: {
-        url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
+        search: "Buscar:",
+        lengthMenu: "Mostrar _MENU_ registros por página",
+        zeroRecords: "No se encontraron registros",
+        info: "",
+        infoEmpty: "",
+        infoFiltered: "(filtrado de _MAX_ registros totales)",
+        paginate: {
+            first: "Primero",
+            last: "Último",
+            next: "Siguiente",
+            previous: "Anterior",
+        },
     },
     lengthMenu: [
         [5, 10, 25, 50, -1],
@@ -9,4 +20,5 @@ $("#data").DataTable({
     pageLength: 50,
     order:[[0, 'desc']],
     responsive: true,
+
 });

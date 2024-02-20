@@ -14,6 +14,8 @@ return new class extends Migration
             $table->date('date');
             $table->decimal('amount', 10, 2);
             $table->foreign('client_id')->references('id')->on('clients');
+            $table->date('initial_date')->nullable();
+            $table->date('final_date')->nullable();
             $table->timestamps();
         });
     }
