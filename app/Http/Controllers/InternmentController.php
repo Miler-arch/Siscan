@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Internment\StoreRequest;
+use App\Http\Requests\Internment\UpdateRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\Internment;
@@ -52,18 +53,19 @@ class InternmentController extends Controller
         $pdf = \PDF::loadView('internments.export', compact('internments'));
         return $pdf->stream('internments.pdf');
     }
-
-    public function show(Internment $internment)
-    {
-        //
-    }
     public function edit(Internment $internment)
     {
-        //
+        $clients = Client::all();
+        $animals = Animal::all();
+        $selectedClientId = $internment->client_id;
+        $selectedAnimalId = $internment->animal_id;
+        return view('internments.edit', compact('internment', 'clients', 'animals', 'selectedClientId', 'selectedAnimalId'));
     }
-    public function update(Request $request, Internment $internment)
+    public function update(UpdateRequest $request, Internment $internment)
     {
-        //
+        $internment->update($request->all());
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Internamiento actualizado con éxito.');
+        return redirect()->route('internments.index');
     }
 
     public function destroy(Internment $internment)

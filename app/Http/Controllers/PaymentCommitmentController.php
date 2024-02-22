@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentCommitment\StoreRequest;
+use App\Http\Requests\PaymentCommitment\UpdateRequest;
 use App\Models\Client;
 use App\Models\PaymentCommitment;
+use App\Notifications\Paid;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PaymentCommitmentController extends Controller
@@ -24,7 +27,19 @@ class PaymentCommitmentController extends Controller
 
     public function store(StoreRequest $request)
     {
-        PaymentCommitment::create($request->all());
+        $data = PaymentCommitment::create([
+                'client_id' => $request->client_id,
+                'user_id' => auth()->id(),
+                'date' => $request->date,
+                'amount' => $request->amount,
+                'initial_date' => $request->initial_date,
+                'final_date' => $request->final_date,
+            ]);
+
+        if ($data->shouldSendNotification()) {
+            auth()->user()->notify(new Paid($data));
+            notyf()->duration(2000)->position('y', 'top')->addWarning('Se ha enviado una notificación al cliente');
+        }
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Compromiso de pago creado con éxito');
         return redirect()->route('payment_commitments.index');
     }
@@ -54,14 +69,27 @@ class PaymentCommitmentController extends Controller
             ->get();
         $pdf = \PDF::loadView('payment_commitments.export', compact('payment_commitments'));
         return $pdf->stream('payment_commitments.pdf');
-    }   
+    }
+
+    public function showNotification($clientId){
+        $client = Client::find($clientId);
+        $client->notify(new Paid($client->paymentCommitments));
+    }
     public function edit(PaymentCommitment $paymentCommitment)
     {
-        //
+        $clients = Client::all();
+        $selectedClientId = $paymentCommitment->client->id;
+        return view('payment_commitments.edit', compact('paymentCommitment', 'clients', 'selectedClientId'));
     }
-    public function update(Request $request, PaymentCommitment $paymentCommitment)
+    public function update(UpdateRequest $request, PaymentCommitment $paymentCommitment)
     {
-        //
+        $paymentCommitment->update([
+            'client_id' => $request->client_id,
+            'date' => $request->date,
+            'amount' => $request->amount,
+        ]);
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Compromiso de pago actualizado con éxito');
+        return redirect()->route('payment_commitments.index');
     }
 
     public function destroy(PaymentCommitment $paymentCommitment)
@@ -69,5 +97,36 @@ class PaymentCommitmentController extends Controller
         $paymentCommitment->delete();
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Compromiso de pago eliminado con éxito');
         return redirect()->route('payment_commitments.index');
+    }
+
+    public function notifications()
+    {
+        $notifications = auth()->user()->notifications;
+        return view('payment_commitments.notifications', compact('notifications'));
+    }
+
+    public function checkNotification($notification)
+    {
+        $notification = auth()->user()->notifications()->find($notification);
+        $notification->markAsRead();
+        return redirect()->back();
+    }
+
+    public function uploadImage(Request $request, PaymentCommitment $paymentCommitment)
+    {
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/payment_commitment_images/', $name);
+
+        }
+
+        $paymentCommitment = PaymentCommitment::find($paymentCommitment->id);
+        $paymentCommitment->photo = $name;
+        $paymentCommitment->save();
+
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Imagen subida con éxito');
+        return redirect()->back();
+
     }
 }

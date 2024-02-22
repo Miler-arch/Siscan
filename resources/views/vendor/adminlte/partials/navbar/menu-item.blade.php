@@ -36,7 +36,6 @@
     />
 
 @elseif ($navbarItemHelper->isSubmenu($item))
-
     {{-- Dropdown menu --}}
     @include('adminlte::partials.navbar.menu-item-dropdown-menu')
 

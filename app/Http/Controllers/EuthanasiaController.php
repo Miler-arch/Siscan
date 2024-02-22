@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Euthanasia\StoreRequest;
+use App\Http\Requests\Euthanasia\UpdateRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\Euthanasia;
@@ -52,11 +53,18 @@ class EuthanasiaController extends Controller
     }
     public function edit(Euthanasia $euthanasia)
     {
-        //
+        $clients = Client::all();
+        $animals = Animal::all();
+        $selectedClientId = $euthanasia->client_id;
+        $selectedAnimalId = $euthanasia->animal_id;
+        return view('euthanasias.edit', compact('euthanasia', 'clients', 'animals', 'selectedClientId', 'selectedAnimalId'));
+
     }
-    public function update(Request $request, Euthanasia $euthanasia)
+    public function update(UpdateRequest $request, Euthanasia $euthanasia)
     {
-        //
+        $euthanasia->update($request->all());
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Eutanasia actualizado con éxito');
+        return redirect()->route('euthanasias.index');
     }
     public function destroy(Euthanasia $euthanasia)
     {

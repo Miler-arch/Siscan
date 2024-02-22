@@ -36,6 +36,7 @@
                 <th>Cliente</th>
                 <th>Fecha de Pago</th>
                 <th>Monto</th>
+                <th>Comprobante</th>
                 <th>Fecha / Hora</th>
                 <th>Acciones</th>
             </tr>
@@ -45,17 +46,59 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $payment_commitment->client->name }}</td>
-                <td>{{ $payment_commitment->date }}</td>
+                <td>{{ \Carbon\Carbon::parse($payment_commitment->date)->format('d-m-Y') }}</td>
                 <td>{{ $payment_commitment->amount }}</td>
-                <td>{{ $payment_commitment->created_at->format('d-m-Y H:i:s ') }}</td>
                 <td>
-                    <form action="{{ route('payment_commitments.destroy', $payment_commitment) }}" method="POST" class="form-delete">
-                        @csrf
-                        @method('DELETE')
-                        <a href="{{ route('payment_commitments_client', $payment_commitment)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        {{-- <a href="{{ route('payment_commitments.edit', $payment_commitment) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                    </form>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal{{$payment_commitment->id}}">
+                        <i class="fas fa-file-image"></i>
+                    </button>
+                    <div class="modal fade" id="exampleModal{{$payment_commitment->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">COMPROBANTE</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if ($payment_commitment->photo == null)
+                                    <div class="modal-body">
+                                        <p class="text-center p-3 rounded">No se cargo ningún comprobante aún.</p>
+                                    </div>
+                                @else
+                                    <div class="modal-body">
+                                        <img src="{{ asset('payment_commitment_images/' . $payment_commitment->photo) }}" alt="Comprobante" width="100%">
+                                    </div>
+                                @endif
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ $payment_commitment->created_at->format('d-m-Y H:i:s ') }}</td>
+
+                <td>
+                    <div class="d-flex align-items-center">
+                        <form action="{{ route('upload_image', $payment_commitment)}}" method="POST" enctype="multipart/form-data" class="mr-2">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="id" value="{{ $payment_commitment->id }}">
+                            <input type="file" name="photo" id="photo" required>
+                            <button type="submit" class="btn btn-info"><i class="fas fa-cloud-upload-alt"></i></button>
+                        </form>
+
+                        <form action="{{ route('payment_commitments.destroy', $payment_commitment) }}" method="POST" class="form-delete mr-2">
+                            @csrf
+                            @method('DELETE')
+                            <a href="{{ route('payment_commitments_client', $payment_commitment)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                            <a href="{{ route('payment_commitments.edit', $payment_commitment) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             @endforeach

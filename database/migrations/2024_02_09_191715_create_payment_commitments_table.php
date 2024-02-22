@@ -10,12 +10,13 @@ return new class extends Migration
     {
         Schema::create('payment_commitments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id');
+            $table->foreignId('client_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->date('date');
             $table->decimal('amount', 10, 2);
-            $table->foreign('client_id')->references('id')->on('clients');
             $table->date('initial_date')->nullable();
             $table->date('final_date')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

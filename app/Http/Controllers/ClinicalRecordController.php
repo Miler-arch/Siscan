@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClinicalRecord\StoreRequest;
+use App\Http\Requests\ClinicalRecord\UpdateRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\ClinicalRecord;
@@ -49,27 +50,36 @@ class ClinicalRecordController extends Controller
     {
         $fecha_inicio = \Carbon\Carbon::parse($request->initial_date)->startOfDay();
         $fecha_fin = \Carbon\Carbon::parse($request->final_date)->endOfDay();
-        $clinicalRecords = ClinicalRecord::with('client', 'user')
+        $clinicalRecords = ClinicalRecord::with('client', 'animal')
             ->whereBetween('created_at', [$fecha_inicio, $fecha_fin])
             ->get();
         $pdf = \PDF::loadView('clinical_records.export', compact('clinicalRecords'));
         $pdf = $pdf->setPaper('a4', 'landscape');
         return $pdf->stream('clinical_records.pdf');
     }
-
-    public function show(ClinicalRecord $clinicalRecord)
+    public function exportForClient(Request $request, Client $client)
     {
-        //
+        $clinicalRecords = ClinicalRecord::with('client', 'animal')
+            ->where('client_id', $client->id)
+            ->get();
+        $pdf = \PDF::loadView('reports.index', compact('clinicalRecords'));
+        $pdf = $pdf->setPaper('a4', 'landscape');
     }
 
     public function edit(ClinicalRecord $clinicalRecord)
     {
-        //
+        $clients = Client::all();
+        $animals = Animal::all();
+        $selectedClientId = $clinicalRecord->client_id;
+        $selectedAnimalId = $clinicalRecord->animal_id;
+        return view('clinical_records.edit', compact('clinicalRecord', 'clients', 'animals', 'selectedClientId', 'selectedAnimalId'));
     }
 
-    public function update(Request $request, ClinicalRecord $clinicalRecord)
+    public function update(UpdateRequest $request, ClinicalRecord $clinicalRecord)
     {
-        //
+        $clinicalRecord->update($request->all());
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Registro clínico actualizado con éxito');
+        return redirect()->route('clinical_records.index');
     }
 
     public function destroy(ClinicalRecord $clinicalRecord)

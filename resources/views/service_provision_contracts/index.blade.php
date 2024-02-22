@@ -55,7 +55,7 @@
                         @csrf
                         @method('DELETE')
                         <a href="{{ route('service_provision_contracts', $service_provision_contract)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        {{-- <a href="{{ route('service_provision_contracts.edit', $service_provision_contract) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
+                        <a href="{{ route('service_provision_contracts.edit', $service_provision_contract) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>

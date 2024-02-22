@@ -36,6 +36,7 @@
                 <th>Cliente</th>
                 <th>Mascota</th>
                 <th>Doctor</th>
+                <th>Fecha</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -46,12 +47,13 @@
                 <td>{{ $internment->client->name }}</td>
                 <td>{{ $internment->animal->name }}</td>
                 <td>{{ $internment->doctor }}</td>
+                <td>{{ $internment->created_at->format('d-m-Y H:i:s') }}</td>
                 <td>
                     <form action="{{ route('internments.destroy', $internment) }}" method="POST" class="form-delete">
                         @csrf
                         @method('DELETE')
                         <a href="{{ route('internments', $internment)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        {{-- <a href="{{ route('internments.edit', $internment) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
+                        <a href="{{ route('internments.edit', $internment) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>

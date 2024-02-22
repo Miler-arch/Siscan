@@ -7,6 +7,7 @@ use App\Http\Controllers\ClinicalRecordController;
 use App\Http\Controllers\EuthanasiaController;
 use App\Http\Controllers\InternmentController;
 use App\Http\Controllers\PaymentCommitmentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SedationAnesthesiaController;
 use App\Http\Controllers\ServiceProvisionContractController;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +39,7 @@ Route::resource('clinical_records', ClinicalRecordController::class)->names('cli
 Route::get('clinical_records_pdf/{clinical_records}', [ClinicalRecordController::class, 'pdf'])->name('clinical_records_pdf');
 Route::get('pdf_all_clinical_records', [ClinicalRecordController::class, 'pdfAll'])->name('pdf_all_clinical_records');
 Route::post('export_clinical_records', [ClinicalRecordController::class, 'export'])->name('export_clinical_records');
+Route::post('clinical_records/{client}/pdf', [ClinicalRecordController::class, 'exportForClient'])->name('clinical_records_pdf_client');
 
 Route::resource('payment_commitments', PaymentCommitmentController::class)->names('payment_commitments');
 Route::get('payment_commitments_client/{payment_commitment}', [PaymentCommitmentController::class, 'pdf'])->name('payment_commitments_client');
@@ -68,6 +70,26 @@ Route::resource('internments', InternmentController::class)->names('internments'
 Route::get('internments/{internment}', [InternmentController::class, 'pdf'])->name('internments');
 Route::get('pdf_all_internments', [InternmentController::class, 'pdfAll'])->name('pdf_all_internments');
 Route::post('export_internments', [InternmentController::class, 'export'])->name('export_internments');
+
+Route::get('notifications', [PaymentCommitmentController::class, 'notifications'])->name('notifications');
+Route::post('checkNotification/{notification}', [PaymentCommitmentController::class, 'checkNotification'])->name('checkNotification');
+
+Route::get('markAllAsRead', function () {
+    auth()->user()->unreadNotifications->markAsRead();
+    return redirect()->back();
+})->name('markAllAsRead');
+
+Route::get('reports', [ReportController::class, 'main'])->name('reports');
+Route::post('/reports/pdf-client', [ReportController::class, 'generatePdfForClient'])->name('reports_pdf_client');
+Route::post('/reports/conctract', [ReportController::class, 'generatePdfForContract'])->name('reports_pdf_contract');
+Route::post('/reports/euthanasia', [ReportController::class, 'generatePdfForEuthanasia'])->name('reports_pdf_euthanasia');
+Route::post('/reports/anesthesia_surgeries', [ReportController::class, 'generatePdfForAnesthesiaSurgeries'])->name('reports_pdf_anesthesia_surgeries');
+Route::post('/reports/sedation_anesthesia', [ReportController::class, 'sedationAnesthesia'])->name('reports_pdf_sedation_anesthesia');
+Route::post('/reports/internments', [ReportController::class, 'generatePdfForInternments'])->name('reports_pdf_internments');
+
+Route::put('upload_image/{payment_commitment}', [PaymentCommitmentController::class, 'uploadImage'])->name('upload_image');
+
+
 });
 
 

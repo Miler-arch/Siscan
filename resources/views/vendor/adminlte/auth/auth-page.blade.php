@@ -10,6 +10,7 @@
 
 @section('adminlte_css')
     @stack('css')
+
     @yield('css')
 @stop
 

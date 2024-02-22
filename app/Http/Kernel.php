@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -65,4 +66,22 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
+
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule->call(function () {
+
+            // Obtener pagos con fecha 5 días en el futuro
+            $paymentCommitments = \App\Models\PaymentCommitment::with('client')
+                ->whereDate('date', now()->addDays(5)->toDateString())
+                ->get();
+
+            // Enviar notificaciones a los clientes
+            $paymentCommitments->each(function ($commitment) {
+                $commitment->client->notify(new \App\Notifications\Paid($commitment));
+            });
+
+        })->daily();
+    }
+
 }

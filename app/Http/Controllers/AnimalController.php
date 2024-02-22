@@ -49,7 +49,8 @@ class AnimalController extends Controller
     }
     public function show(Animal $animal)
     {
-        return view('animals.show', compact('animal'));
+        $client = Client::find($animal->client_id);
+        return view('animals.show', compact('animal', 'client'));
     }
 
     public function edit(Animal $animal)

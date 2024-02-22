@@ -22,8 +22,8 @@
                         <div class="form-group">
                             <label class="required">Cliente</label>
                             <select name="client_id" id="client_id" class="form-control select2">
-                                <option value="">Seleccione un cliente</option>
                                 @foreach ($clients as $client)
+                                    <option></option>
                                     <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
                                         {{ $client->name }}
                                     </option>

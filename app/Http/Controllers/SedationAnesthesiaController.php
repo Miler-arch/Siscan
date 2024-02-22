@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SedationAnesthesia\StoreRequest;
+use App\Http\Requests\SedationAnesthesia\UpdateRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\SedationAnesthesia;
@@ -51,18 +52,19 @@ class SedationAnesthesiaController extends Controller
         $pdf = \PDF::loadView('sedation_anesthesias.export', compact('sedationAnesthesias'));
         return $pdf->stream('sedation_anesthesias.pdf');
     }
-
-    public function show(SedationAnesthesia $sedationAnesthesia)
-    {
-        //
-    }
     public function edit(SedationAnesthesia $sedationAnesthesia)
     {
-        //
+        $clients = Client::all();
+        $animals = Animal::all();
+        $selectedClientId = $sedationAnesthesia->client_id;
+        $selectedAnimalId = $sedationAnesthesia->animal_id;
+        return view('sedation_anesthesias.edit', compact('sedationAnesthesia', 'clients', 'animals', 'selectedClientId', 'selectedAnimalId'));
     }
-    public function update(Request $request, SedationAnesthesia $sedationAnesthesia)
+    public function update(UpdateRequest $request, SedationAnesthesia $sedationAnesthesia)
     {
-        //
+        $sedationAnesthesia->update($request->all());
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Acta de sedación y anestesia actualizada con éxito.');
+        return redirect()->route('sedation_anesthesias.index');
     }
 
     public function destroy(SedationAnesthesia $sedationAnesthesia)

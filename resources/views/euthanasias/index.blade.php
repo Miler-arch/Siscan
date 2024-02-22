@@ -54,7 +54,7 @@
                         @csrf
                         @method('DELETE')
                         <a href="{{ route('euthanasias', $euthanasia)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        {{-- <a href="{{ route('euthanasias.edit', $euthanasia) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
+                        <a href="{{ route('euthanasias.edit', $euthanasia) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>

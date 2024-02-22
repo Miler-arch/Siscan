@@ -36,8 +36,22 @@ class Client extends Model
     {
         return $this->hasMany(AnesthesiaSurgeries::class);
     }
+    public function euthanasias()
+    {
+        return $this->hasMany(Euthanasia::class);
+    }
 
-    public function sedationAnesthesia()
+    public function clinicalRecords()
+    {
+        return $this->hasMany(ClinicalRecord::class);
+    }
+
+    public function serviceProvisionContracts()
+    {
+        return $this->hasMany(ServiceProvisionContract::class);
+    }
+
+    public function sedationAnesthesias()
     {
         return $this->hasMany(SedationAnesthesia::class);
     }

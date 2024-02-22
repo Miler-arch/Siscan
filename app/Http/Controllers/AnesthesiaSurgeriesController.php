@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AnesthesiaSurgeries\StoreRequest;
+use App\Http\Requests\AnesthesiaSurgeries\UpdateRequest;
 use App\Models\AnesthesiaSurgeries;
 use App\Models\Animal;
 use App\Models\Client;
@@ -52,13 +53,19 @@ class AnesthesiaSurgeriesController extends Controller
         return $pdf->stream('anesthesia_surgeries.pdf');
     }
 
-    public function edit(AnesthesiaSurgeries $anesthesiaSurgeries)
+    public function edit(AnesthesiaSurgeries $anesthesiaSurgery)
     {
-        //
+        $clients = Client::all();
+        $animals = Animal::all();
+        $selectedClientId = $anesthesiaSurgery->client_id;
+        $selectedAnimalId = $anesthesiaSurgery->animal_id;
+        return view('anesthesia_surgeries.edit', compact('anesthesiaSurgery', 'clients', 'animals', 'selectedClientId', 'selectedAnimalId'));
     }
-    public function update(Request $request, AnesthesiaSurgeries $anesthesiaSurgeries)
+    public function update(UpdateRequest $request, AnesthesiaSurgeries $anesthesiaSurgery)
     {
-        //
+        $anesthesiaSurgery->update($request->all());
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Anestesia y cirugía actualizado con éxito');
+        return redirect()->route('anesthesia_surgeries.index');
     }
     public function destroy(AnesthesiaSurgeries $anesthesiaSurgery)
     {

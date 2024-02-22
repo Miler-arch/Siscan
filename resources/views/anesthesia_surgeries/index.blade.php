@@ -56,7 +56,7 @@
                         @csrf
                         @method('DELETE')
                         <a href="{{ route('anesthesia_surgeries', $anesthesiaSurgery)}}" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        {{-- <a href="{{ route('anesthesia_surgeries.edit', $anesthesiaAndSurgery) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a> --}}
+                        <a href="{{ route('anesthesia_surgeries.edit', $anesthesiaSurgery) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                     </form>
                 </td>

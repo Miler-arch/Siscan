@@ -15,27 +15,46 @@
 
     {{-- Dropdown Menu --}}
     @if($enableDropdownMode)
-
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-
-            {{-- Custom dropdown content provided by external source --}}
-            <div class="adminlte-dropdown-content"></div>
-
-            {{-- Dropdown divider --}}
+    <a data-toggle="dropdown">
+        @if (count(auth()->user()->unreadNotifications) == 0)
+            <span class="badge badge-danger navbar-badge">0</span>
+        @else
+            <span class="badge badge-warning navbar-badge">
+                @if(count(auth()->user()->unreadNotifications))
+                <b style="font-size: 12px;" class="font-weight-bold">
+                    {{count(auth()->user()->unreadNotifications)}}
+                </b>
+                @endif
+            </span>
+        @endif
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="max-height: 700px; overflow-y: auto;">
+            @if (count(auth()->user()->unreadNotifications) > 0)
+                <a href="markAllAsRead" class="dropdown-item dropdown-footer bg-primary">Marcar todas como leídas</a>
+            @endif
+            <span class="dropdown-item dropdown-header bg-gray">Notificaciones no leídas</span>
             <div class="dropdown-divider"></div>
-
-            {{-- Dropdown footer with link --}}
-            <a href="{{ $attributes->get('href') }}" class="dropdown-item dropdown-footer">
-                @isset($dropdownFooterLabel)
-                    {{ $dropdownFooterLabel }}
-                @else
-                    <i class="fas fa-lg fa-search-plus"></i>
-                @endisset
-            </a>
-
+            @forelse (auth()->user()->unreadNotifications as $notification)
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-money-bill text-success"></i> {{$notification->data['client']}} - <b>{{$notification->data['amount']}} Bs. {{$notification->data['date']}}</b>
+                    <span class="float-right text-muted text-sm">{{$notification->created_at->diffForHumans()}}</span>
+                </a>
+            @empty
+                <span class="dropdown-item dropdown-header">Sin notificaciones no leídas</span>
+            @endforelse
+            <div class="dropdown-divider"></div>
+            <span class="dropdown-item dropdown-header bg-gray">Notificaciones leídas</span>
+            @forelse (auth()->user()->readNotifications as $notification)
+                <a href="#" class="dropdown-item">
+                    <i class="fas fa-check-circle text-muted"></i> {{$notification->data['client']}} - <b>{{$notification->data['amount']}} Bs. {{$notification->data['date']}}</b>
+                    <span class="float-right text-muted text-sm">{{$notification->created_at->diffForHumans()}}</span>
+                </a>
+            @empty
+                <span class="dropdown-item dropdown-header">Sin notificaciones leídas</span>
+            @endforelse
         </div>
-
+    </a>
     @endif
+
 
 </li>
 

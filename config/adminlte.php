@@ -296,6 +296,16 @@ return [
         ],
 
         [
+            'type'        => 'navbar-notification',
+            'id'          => 'notifications',
+            'icon'        => 'far fa-bell',
+            'url'         => '#',
+            'topnav_right' => true,
+            'label_color' => 'success',
+            'dropdown_mode' => true,
+        ],
+
+        [
             'text' => 'Clientes',
             'url'  => 'clients',
             'icon' => 'fas fa-user-tie text-white',
@@ -308,15 +318,16 @@ return [
         ],
 
         [
-            'text' => 'Registros Clínicos',
-            'url'  => 'clinical_records',
-            'icon' => 'fas fa-notes-medical text-info',
-        ],
-
-        [
             'text' => 'Compromisos de Pago',
             'url'  => 'payment_commitments',
             'icon' => 'fas fa-hand-holding-usd text-success',
+        ],
+
+
+        [
+            'text' => 'Registros Clínicos',
+            'url'  => 'clinical_records',
+            'icon' => 'fas fa-notes-medical text-info',
         ],
 
         [
@@ -347,6 +358,18 @@ return [
             'text' => 'Internamientos',
             'url'  => 'internments',
             'icon' => 'fas fa-procedures text-warning',
+        ],
+
+        [
+            'text' => 'Agenda',
+            'url'  => 'notifications',
+            'icon' => 'fas fa-calendar-alt',
+        ],
+
+        [
+            'text' => 'Reportes',
+            'url'  => 'reports',
+            'icon' => 'fas fa-chart-bar text-white',
         ]
 
     ],
@@ -416,8 +439,6 @@ return [
                 ],
             ],
         ],
-
-
 
         'Select2' => [
             'active' => false,

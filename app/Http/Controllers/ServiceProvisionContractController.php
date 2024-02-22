@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ServiceProvisioContract\StoreRequest;
+use App\Http\Requests\ServiceProvisioContract\UpdateRequest;
 use App\Models\Animal;
 use App\Models\Client;
 use App\Models\ServiceProvisionContract;
@@ -60,11 +61,17 @@ class ServiceProvisionContractController extends Controller
 
     public function edit(ServiceProvisionContract $serviceProvisionContract)
     {
-        //
+        $clients = Client::all();
+        $animals = Animal::all();
+        $selectedClientId = $serviceProvisionContract->client->id;
+        $selectedAnimalId = $serviceProvisionContract->animal->id;
+        return view('service_provision_contracts.edit', compact('serviceProvisionContract', 'clients', 'animals', 'selectedClientId', 'selectedAnimalId'));
     }
-    public function update(Request $request, ServiceProvisionContract $serviceProvisionContract)
+    public function update(UpdateRequest $request, ServiceProvisionContract $serviceProvisionContract)
     {
-        //
+        $serviceProvisionContract->update($request->all());
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Contrato de prestación de servicios actualizado con éxito');
+        return redirect()->route('service_provision_contracts.index');
     }
 
     public function destroy(ServiceProvisionContract $serviceProvisionContract)

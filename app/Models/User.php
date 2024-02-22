@@ -52,4 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(ClinicalRecord::class);
     }
+
+    public function paymentCommitments()
+    {
+        return $this->hasMany(PaymentCommitment::class);
+    }
+
 }
