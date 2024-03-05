@@ -84,7 +84,7 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => true,
+        'enabled' => false,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/logo.jpg',
             'alt' => 'SisCan',
@@ -169,8 +169,8 @@ return [
     */
 
     'classes_auth_card' => 'card-outline card-info',
-    'classes_auth_header' => 'bg-gradient-primary',
-    'classes_auth_body' => 'bg-gradient-primary',
+    'classes_auth_header' => '',
+    'classes_auth_body' => '',
     'classes_auth_footer' => 'text-center',
     'classes_auth_icon' => 'fa-lg text-white',
     'classes_auth_btn' => 'btn-flat btn-dark',
@@ -306,72 +306,106 @@ return [
         ],
 
         [
+            'text' => 'Panel de Control',
+            'url'  => 'dashboard',
+            'icon' => 'fas fa-tachometer-alt text-white mr-2',
+            'can'  => 'dashboard.index',
+        ],
+
+        [
             'text' => 'Clientes',
             'url'  => 'clients',
-            'icon' => 'fas fa-user-tie text-white',
+            'icon' => 'fas fa-user-tie text-white mr-2',
+            'active' => ['clients', 'clients/*'],
+            'can'  => 'clients.index',
         ],
 
         [
             'text' => 'Mascotas',
             'url'  => 'animals',
-            'icon' => 'fas fa-paw text-warning',
+            'icon' => 'fas fa-paw text-warning mr-2',
+            'active' => ['animals', 'animals/*'],
+            'can'  => 'animals.index',
         ],
 
         [
             'text' => 'Compromisos de Pago',
             'url'  => 'payment_commitments',
-            'icon' => 'fas fa-hand-holding-usd text-success',
+            'icon' => 'fas fa-hand-holding-usd text-success mr-1',
+            'active' => ['payment_commitments', 'payment_commitments/*'],
+            'can'  => 'payment_commitments.index',
         ],
 
 
         [
             'text' => 'Registros Clínicos',
             'url'  => 'clinical_records',
-            'icon' => 'fas fa-notes-medical text-info',
+            'icon' => 'fas fa-notes-medical text-info mr-2',
+            'active' => ['clinical_records', 'clinical_records/*'],
+            'can'  => 'clinical_records.index',
         ],
 
         [
             'text' => 'Contrato de Prestación',
             'url'  => 'service_provision_contracts',
-            'icon' => 'fas fa-file-contract text-white',
+            'icon' => 'fas fa-file-contract text-white mr-2',
+            'active' => ['service_provision_contracts', 'service_provision_contracts/*'],
+            'can'  => 'service_provision_contracts.index',
         ],
 
         [
             'text' => 'Solicitud de Eutanasia',
             'url'  => 'euthanasias',
             'icon' => 'fas fa-praying-hands text-danger',
+            'active' => ['euthanasias', 'euthanasias/*'],
+            'can'  => 'euthanasias.index',
         ],
 
         [
             'text' => 'Anestesia y Cirugía',
             'url'  => 'anesthesia_surgeries',
-            'icon' => 'fas fa-syringe text-success',
+            'icon' => 'fas fa-syringe text-success mr-1',
+            'active' => ['anesthesia_surgeries', 'anesthesia_surgeries/*'],
+            'can'  => 'anesthesia_surgeries.index',
         ],
 
         [
             'text' => 'Sedación y Anestesia',
             'url'  => 'sedation_anesthesias',
-            'icon' => 'fas fa-syringe text-danger',
+            'icon' => 'fas fa-syringe text-danger mr-1',
+            'active' => ['sedation_anesthesias', 'sedation_anesthesias/*'],
+            'can'  => 'sedation_anesthesias.index',
         ],
 
         [
             'text' => 'Internamientos',
             'url'  => 'internments',
             'icon' => 'fas fa-procedures text-warning',
+            'active' => ['internments', 'internments/*'],
+            'can'  => 'internments.index',
         ],
 
         [
             'text' => 'Agenda',
             'url'  => 'notifications',
-            'icon' => 'fas fa-calendar-alt',
+            'icon' => 'fas fa-calendar-alt mr-1',
+            'active' => ['notifications', 'notifications/*'],
         ],
 
         [
             'text' => 'Reportes',
             'url'  => 'reports',
-            'icon' => 'fas fa-chart-bar text-white',
-        ]
+            'icon' => 'fas fa-chart-bar text-white mr-1',
+            'active' => ['reports', 'reports/*'],
+        ],
 
+        [
+            'text' => 'Usuarios',
+            'url'  => 'users',
+            'icon' => 'fas fa-fw fa-user',
+            'active' => ['users', 'users/*'],
+            'can'  => 'users.index',
+        ],
     ],
 
     /*
@@ -430,12 +464,12 @@ return [
                 [
                     'type' => 'css',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css',
+                    'location' => '//cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css',
                 ],
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js',
+                    'location' => '//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js',
                 ],
             ],
         ],
@@ -446,22 +480,22 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+                    'location' => '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
                 ],
                 [
                     'type' => 'css',
                     'asset' => true,
-                    'location' => 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
+                    'location' => '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
                 ],
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js',
                 ],
             ],
         ],
@@ -471,7 +505,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => true,
-                    'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
+                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@11',
                 ],
             ],
         ],

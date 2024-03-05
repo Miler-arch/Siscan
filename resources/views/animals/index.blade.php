@@ -40,15 +40,18 @@
                 <td>
                     <img src="{{ asset('./animal_images/'.$animal->photo) }}" class="img-fluid" width="80">
                 </td>
-                <td>
-                    <form action="{{ route('animals.destroy', $animal) }}" method="POST" class="form-delete">
-                        @csrf
-                        @method('DELETE')
-                        <a href="{{ route('history_animal', $animal)}}" class="btn btn-danger" target="_blank"><i class="fas fa-file-pdf"></i></a>
-                        <a href="{{ route('animals.show', $animal) }}" class="btn btn-info"><i class=" fas fa-eye"></i></a>
-                        <a href="{{ route('animals.edit', $animal) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                    </form>
+                <td class="d-flex">
+                    <a href="{{ route('history_animal', $animal)}}" class="btn btn-danger mr-1" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                    <a href="{{ route('animals.show', $animal) }}" class="btn btn-info mr-1"><i class=" fas fa-eye"></i></a>
+                    <a href="{{ route('animals.edit', $animal) }}" class="btn btn-warning mr-1"><i class="fas fa-pen"></i></a>
+                    @can('animals.destroy')
+                        <form action="{{ route('animals.destroy', $animal) }}" method="POST" class="form-delete">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    @endcan
                 </td>
             </tr>
             @endforeach

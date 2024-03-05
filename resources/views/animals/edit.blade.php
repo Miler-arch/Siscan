@@ -46,8 +46,19 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Especie</label>
-                            <input type="text" name="specie" id="specie" class="form-control" value="{{$animal->specie}}">
+                            <label class="required">Especie</label>
+                            <select name="specie" id="specie" class="form-control">
+                                <option selected disabled>Seleccione una opción</option>
+                                <option value="Canino" {{ $animal->specie == 'Canino' ? 'selected' : '' }}>Canino</option>
+                                <option value="Felino" {{ $animal->specie == 'Felino' ? 'selected' : '' }}>Felino</option>
+                                <option value="Ave" {{ $animal->specie == 'Ave' ? 'selected' : '' }}>Ave</option>
+                                <option value="Reptil" {{ $animal->specie == 'Reptil' ? 'selected' : '' }}>Reptil</option>
+                                <option value="Roedor" {{ $animal->specie == 'Roedor' ? 'selected' : '' }}>Roedor</option>
+                                <option value="Anfibio" {{ $animal->specie == 'Anfibio' ? 'selected' : '' }}>Anfibio</option>
+                                <option value="Pez" {{ $animal->specie == 'Pez' ? 'selected' : '' }}>Pez</option>
+                                <option value="Mamifero" {{ $animal->specie == 'Mamifero' ? 'selected' : '' }}>Mamifero</option>
+                                <option value="Otro" {{ $animal->specie == 'Otro' ? 'selected' : '' }}>Otro</option>
+                            </select>
                         </div>
                     </div>
 

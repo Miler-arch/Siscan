@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class AnesthesiaSurgeriesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:anesthesia_surgeries.index')->only('index');
+        $this->middleware('can:anesthesia_surgeries.create')->only('create', 'store');
+        $this->middleware('can:anesthesia_surgeries.edit')->only('edit', 'update');
+        $this->middleware('can:anesthesia_surgeries.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $anesthesiaSurgeries = AnesthesiaSurgeries::with('client', 'animal')->get();
@@ -72,5 +80,20 @@ class AnesthesiaSurgeriesController extends Controller
         $anesthesiaSurgery->delete();
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Anestesia y cirugía eliminado con éxito');
         return redirect()->route('anesthesia_surgeries.index');
+    }
+    public function uploadImage(Request $request, AnesthesiaSurgeries $anesthesiaSurgery)
+    {
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/anesthesia_surgeries_images/', $name);
+        }
+
+        $anesthesiaSurgery = AnesthesiaSurgeries::find($anesthesiaSurgery->id);
+        $anesthesiaSurgery->photo = $name;
+        $anesthesiaSurgery->save();
+
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Comprobante subido con éxito');
+        return redirect()->back();
     }
 }

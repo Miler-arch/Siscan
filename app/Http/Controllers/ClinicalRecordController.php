@@ -11,9 +11,17 @@ use Illuminate\Http\Request;
 
 class ClinicalRecordController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:clinical_records.index')->only('index');
+        $this->middleware('can:clinical_records.create')->only('create', 'store');
+        $this->middleware('can:clinical_records.edit')->only('edit', 'update');
+        $this->middleware('can:clinical_records.destroy')->only('destroy');
+    }
+
     public function index()
     {
-        $clinical_records = ClinicalRecord::with('client', 'user')->get();
+        $clinical_records = ClinicalRecord::with('client', 'user', 'animal')->get();
         return view('clinical_records.index', compact('clinical_records'));
     }
 
@@ -87,5 +95,21 @@ class ClinicalRecordController extends Controller
         $clinicalRecord->delete();
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Registro clínico eliminado con éxito');
         return redirect()->route('clinical_records.index');
+    }
+
+    public function uploadImage(Request $request, ClinicalRecord $clinicalRecord)
+    {
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/clinical_record_images/', $name);
+        }
+
+        $clinicalRecord = ClinicalRecord::find($clinicalRecord->id);
+        $clinicalRecord->photo = $name;
+        $clinicalRecord->save();
+
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Comprobante subido con éxito');
+        return redirect()->back();
     }
 }

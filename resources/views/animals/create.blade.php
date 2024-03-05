@@ -48,10 +48,18 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="required">Especie</label>
-                            <input type="text" name="specie" id="specie" class="form-control" value="{{old('specie')}}">
-                            @error('specie')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
+                            <select name="specie" id="specie" class="form-control">
+                                <option selected disabled>Seleccione una opción</option>
+                                <option value="Canino" {{ old('specie') == 'Canino' ? 'selected' : '' }}>Canino</option>
+                                <option value="Felino" {{ old('specie') == 'Felino' ? 'selected' : '' }}>Felino</option>
+                                <option value="Ave" {{ old('specie') == 'Ave' ? 'selected' : '' }}>Ave</option>
+                                <option value="Reptil" {{ old('specie') == 'Reptil' ? 'selected' : '' }}>Reptil</option>
+                                <option value="Roedor" {{ old('specie') == 'Roedor' ? 'selected' : '' }}>Roedor</option>
+                                <option value="Anfibio" {{ old('specie') == 'Anfibio' ? 'selected' : '' }}>Anfibio</option>
+                                <option value="Pez" {{ old('specie') == 'Pez' ? 'selected' : '' }}>Pez</option>
+                                <option value="Mamifero" {{ old('specie') == 'Mamifero' ? 'selected' : '' }}>Mamifero</option>
+                                <option value="Otro" {{ old('specie') == 'Otro' ? 'selected' : '' }}>Otro</option>
+                            </select>
                         </div>
                     </div>
 

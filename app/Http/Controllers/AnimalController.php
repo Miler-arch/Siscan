@@ -14,6 +14,14 @@ use Illuminate\Http\Request;
 
 class AnimalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:animals.index')->only('index');
+        $this->middleware('can:animals.create')->only('create', 'store');
+        $this->middleware('can:animals.edit')->only('edit', 'update');
+        $this->middleware('can:animals.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $animals = Animal::with('client', 'user')->get();

@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class EuthanasiaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:euthanasias.index')->only('index');
+        $this->middleware('can:euthanasias.create')->only('create', 'store');
+        $this->middleware('can:euthanasias.edit')->only('edit', 'update');
+        $this->middleware('can:euthanasias.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $euthanasias = Euthanasia::with('client', 'animal')->get();
@@ -71,5 +79,20 @@ class EuthanasiaController extends Controller
         $euthanasia->delete();
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Eutanasia eliminado con éxito');
         return redirect()->route('euthanasias.index');
+    }
+    public function uploadImage(Request $request, Euthanasia $euthanasia)
+    {
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/euthanasias_images/', $name);
+        }
+
+        $euthanasia = Euthanasia::find($euthanasia->id);
+        $euthanasia->photo = $name;
+        $euthanasia->save();
+
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Comprobante subido con éxito');
+        return redirect()->back();
     }
 }
