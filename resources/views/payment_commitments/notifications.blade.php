@@ -12,6 +12,11 @@
 @stop
 
 @section('content')
+@if ($notifications->isEmpty())
+    <div class="alert alert-warning text-center" role="alert">
+        No hay notificaciones aún.
+    </div>
+@endif
     <div class=" d-flex flex-wrap ">
     @foreach ($notifications as $data)
         <div class=" col-lg-3 col-12 mb-3">

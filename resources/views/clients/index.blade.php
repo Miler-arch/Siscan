@@ -32,14 +32,16 @@
                 <td>
                     <img src="{{asset('images/'.$client->photo)}}" alt="client_photo" class="img-fluid" width="50">
                 </td>
-                <td>
-                    <form action="{{ route('clients.destroy', $client) }}" method="POST" class="form-delete">
-                        @csrf
-                        @method('DELETE')
-                        <a href="{{ route('clients.show', $client) }}" class="btn btn-info"><i class=" fas fa-eye"></i></a>
-                        <a href="{{ route('clients.edit', $client) }}" class="btn btn-warning"><i class="fas fa-pen"></i></a>
-                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                    </form>
+                <td class="d-flex">
+                    <a href="{{ route('clients.show', $client) }}" class="btn btn-info mr-1"><i class=" fas fa-eye"></i></a>
+                    <a href="{{ route('clients.edit', $client) }}" class="btn btn-warning mr-1"><i class="fas fa-pen"></i></a>
+                    @can('clients.destroy')
+                        <form action="{{ route('clients.destroy', $client) }}" method="POST" class="form-delete">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    @endcan
                 </td>
             </tr>
             @endforeach

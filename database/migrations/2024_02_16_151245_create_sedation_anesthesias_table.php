@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('animal_id')->references('id')->on('animals');
             $table->date('initial_date')->nullable();
             $table->date('final_date')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

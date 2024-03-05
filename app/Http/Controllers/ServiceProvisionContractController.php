@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class ServiceProvisionContractController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:service_provision_contracts.index')->only('index');
+        $this->middleware('can:service_provision_contracts.create')->only('create', 'store');
+        $this->middleware('can:service_provision_contracts.edit')->only('edit', 'update');
+        $this->middleware('can:service_provision_contracts.destroy')->only('destroy');
+    }
     public function index()
     {
         $service_provision_contracts = ServiceProvisionContract::with('client')->get();
@@ -79,5 +86,21 @@ class ServiceProvisionContractController extends Controller
         $serviceProvisionContract->delete();
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Contrato de prestación de servicios eliminado con éxito');
         return redirect()->route('service_provision_contracts.index');
+    }
+    public function uploadImage(Request $request, ServiceProvisionContract $serviceProvisionContract)
+    {
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/service_provision_contract_images/', $name);
+        }
+
+        $serviceProvisionContract = ServiceProvisionContract::find($serviceProvisionContract->id);
+        $serviceProvisionContract->photo = $name;
+        $serviceProvisionContract->save();
+
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Comprobante subido con éxito');
+        return redirect()->back();
+
     }
 }

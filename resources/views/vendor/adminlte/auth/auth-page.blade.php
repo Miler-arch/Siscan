@@ -36,14 +36,7 @@
                          @if (config('adminlte.auth_logo.img.height', null))
                             height="{{ config('adminlte.auth_logo.img.height') }}"
                          @endif>
-                @else
-                    <img src="{{ asset(config('adminlte.logo_img')) }}"
-                         alt="{{ config('adminlte.logo_img_alt') }}" height="50">
                 @endif
-
-                {{-- Logo Label --}}
-                {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
-
             </a>
         </div>
 
@@ -52,11 +45,7 @@
 
             {{-- Card Header --}}
             @hasSection('auth_header')
-                <div class="card-header {{ config('adminlte.classes_auth_header', '') }}">
-                    <h3 class="card-title float-none text-center">
-                        @yield('auth_header')
-                    </h3>
-                </div>
+
             @endif
 
             {{-- Card Body --}}

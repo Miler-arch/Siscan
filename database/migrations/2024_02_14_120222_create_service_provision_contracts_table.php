@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('client_id')->references('id')->on('clients');
             $table->date('initial_date')->nullable();
             $table->date('final_date')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

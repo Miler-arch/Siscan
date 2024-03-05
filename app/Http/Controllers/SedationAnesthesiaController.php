@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class SedationAnesthesiaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:sedation_anesthesias.index')->only('index');
+        $this->middleware('can:sedation_anesthesias.create')->only('create', 'store');
+        $this->middleware('can:sedation_anesthesias.edit')->only('edit', 'update');
+        $this->middleware('can:sedation_anesthesias.destroy')->only('destroy');
+    }
     public function index()
     {
         $sedationAnesthesias = SedationAnesthesia::with('client', 'animal')->get();
@@ -72,5 +79,20 @@ class SedationAnesthesiaController extends Controller
         $sedationAnesthesia->delete();
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Acta de sedación y anestesia eliminada con éxito.');
         return redirect()->route('sedation_anesthesias.index');
+    }
+    public function uploadImage(Request $request, SedationAnesthesia $sedationAnesthesia)
+    {
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/sedation_anesthesia_images/', $name);
+        }
+
+        $sedationAnesthesia = SedationAnesthesia::find($sedationAnesthesia->id);
+        $sedationAnesthesia->photo = $name;
+        $sedationAnesthesia->save();
+
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Comprobante subido con éxito');
+        return redirect()->back();
     }
 }

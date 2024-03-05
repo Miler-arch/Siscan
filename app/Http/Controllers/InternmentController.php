@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class InternmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:internments.index')->only('index');
+        $this->middleware('can:internments.create')->only('create', 'store');
+        $this->middleware('can:internments.edit')->only('edit', 'update');
+        $this->middleware('can:internments.destroy')->only('destroy');
+    }
+
     public function index()
     {
         $internments = Internment::with('client', 'animal')->get();
@@ -73,5 +81,20 @@ class InternmentController extends Controller
         $internment->delete();
         notyf()->duration(2000)->position('y', 'top')->addSuccess('Internamiento eliminado con éxito.');
         return redirect()->route('internments.index');
+    }
+    public function uploadImage(Request $request, Internment $internment)
+    {
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $name = time() . $file->getClientOriginalName();
+            $file->move(public_path() . '/internments_images/', $name);
+
+        }
+        $internment = Internment::find($internment->id);
+        $internment->photo = $name;
+        $internment->save();
+
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Comprobante subido con éxito');
+        return redirect()->back();
     }
 }

@@ -7,11 +7,17 @@ use App\Http\Requests\PaymentCommitment\UpdateRequest;
 use App\Models\Client;
 use App\Models\PaymentCommitment;
 use App\Notifications\Paid;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PaymentCommitmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:payment_commitments.index')->only('index');
+        $this->middleware('can:payment_commitments.create')->only('create', 'store');
+        $this->middleware('can:payment_commitments.edit')->only('edit', 'update');
+        $this->middleware('can:payment_commitments.destroy')->only('destroy');
+    }
 
     public function index()
     {
@@ -109,6 +115,7 @@ class PaymentCommitmentController extends Controller
     {
         $notification = auth()->user()->notifications()->find($notification);
         $notification->markAsRead();
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Notificación marcada como leída');
         return redirect()->back();
     }
 
@@ -118,15 +125,12 @@ class PaymentCommitmentController extends Controller
             $file = $request->file('photo');
             $name = time() . $file->getClientOriginalName();
             $file->move(public_path() . '/payment_commitment_images/', $name);
-
         }
-
         $paymentCommitment = PaymentCommitment::find($paymentCommitment->id);
         $paymentCommitment->photo = $name;
         $paymentCommitment->save();
 
-        notyf()->duration(2000)->position('y', 'top')->addSuccess('Imagen subida con éxito');
+        notyf()->duration(2000)->position('y', 'top')->addSuccess('Comprobante subido con éxito');
         return redirect()->back();
-
     }
 }
